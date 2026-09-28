@@ -4,6 +4,8 @@
 // Riêng 2 môn của Khoa Kinh tế Phát triển – UEB (Kinh tế lượng, Toán cao cấp) dùng mã học phần
 // và số tín chỉ THẬT, lấy từ Chương trình đào tạo ngành Kinh tế Phát triển (mã ngành 7310105),
 // ban hành kèm Quyết định 4327/QĐ-ĐHKT ngày 28/12/2021 (file FINAL_KTPT.doc).
+// Các môn của Khoa Quản trị kinh doanh – NEU cũng dùng mã và số tín chỉ THẬT (theo khung CTĐT của NEU,
+// khối "Kiến thức ngành" và "Chuyên sâu").
 // Các môn còn lại dùng mã DEMO-xxx, nhóm thay mã thật sau.
 
 // ---------- Kiểu dữ liệu ----------
@@ -87,6 +89,7 @@ export const khoas: Khoa[] = [
   { id: "ueb-tcnh", truongId: "ueb", ten: "Khoa Tài chính – Ngân hàng" },
   { id: "neu-tkt", truongId: "neu", ten: "Khoa Toán kinh tế" },
   { id: "neu-ktkt", truongId: "neu", ten: "Khoa Kế toán – Kiểm toán" },
+  { id: "neu-qtkd", truongId: "neu", ten: "Khoa Quản trị kinh doanh" },
 ];
 
 // ---------- Môn học ----------
@@ -111,6 +114,14 @@ export const monHocs: MonHoc[] = [
   { id: "neu-nlkt", khoaId: "neu-ktkt", maHocPhan: "DEMO-401", ten: "Nguyên lý kế toán", soTinChi: 3 },
   { id: "neu-kttc", khoaId: "neu-ktkt", maHocPhan: "DEMO-402", ten: "Kế toán tài chính", soTinChi: 3 },
   { id: "neu-tcdn", khoaId: "neu-ktkt", maHocPhan: "DEMO-403", ten: "Tài chính doanh nghiệp", soTinChi: 3 },
+
+  // NEU – Khoa Quản trị kinh doanh (mã thật theo khung CTĐT NEU)
+  { id: "neu-qtcl", khoaId: "neu-qtkd", maHocPhan: "QTCL1104", ten: "Quản trị chất lượng", soTinChi: 3 },
+  { id: "neu-qtcl2", khoaId: "neu-qtkd", maHocPhan: "QTKD1114", ten: "Quản trị chiến lược 2", soTinChi: 3 },
+  { id: "neu-qtvh", khoaId: "neu-qtkd", maHocPhan: "QTKD1149", ten: "Quản trị vận hành 2", soTinChi: 3 },
+  { id: "neu-kskd", khoaId: "neu-qtkd", maHocPhan: "QTTH1108", ten: "Khởi sự kinh doanh", soTinChi: 3 },
+  { id: "neu-qtcu", khoaId: "neu-qtkd", maHocPhan: "QTKD1133", ten: "Quản trị chuỗi cung ứng", soTinChi: 3 },
+  { id: "neu-qtcp", khoaId: "neu-qtkd", maHocPhan: "QTTH1116", ten: "Quản trị chi phí kinh doanh", soTinChi: 3 },
 ];
 
 // ---------- Tutor ----------
@@ -293,6 +304,56 @@ export const tutors: Tutor[] = [
     hoatDong: ["Thành viên CLB Kế toán"],
     kyNangMem: ["Tổng hợp tài liệu"],
   },
+  {
+    id: "t11",
+    hoTen: "Lương Bảo Ngọc",
+    anh: "BN",
+    truongId: "neu",
+    khoaId: "neu-qtkd",
+    chuyenNganh: "Quản trị kinh doanh tổng hợp",
+    namNhapHoc: 2022,
+    trangThai: "Sinh viên năm 4",
+    gpa: 3.82,
+    daXacThucBangDiem: true,
+    gioiThieu:
+      "Mình học quản trị bằng case: mỗi buổi phân tích một doanh nghiệp thật, rút ra khung lý thuyết rồi mới luyện đề.",
+    thanhTich: ["Học bổng khuyến khích học tập 5 kỳ", "Top 10 cuộc thi case study quản trị cấp quốc gia"],
+    hoatDong: ["Trưởng ban học thuật CLB Quản trị", "Thực tập vận hành tại một công ty logistics"],
+    kyNangMem: ["Phân tích case", "Thuyết trình trước hội đồng", "Làm slide chuyên nghiệp"],
+  },
+  // Cựu sinh viên GPA cao nhưng Quản trị vận hành 2 chỉ đạt B+ → môn đó bị ẩn
+  {
+    id: "t12",
+    hoTen: "Trịnh Quốc Việt",
+    anh: "QV",
+    truongId: "neu",
+    khoaId: "neu-qtkd",
+    chuyenNganh: "Quản trị kinh doanh",
+    namNhapHoc: 2019,
+    trangThai: "Cựu sinh viên",
+    gpa: 3.75,
+    daXacThucBangDiem: true,
+    gioiThieu: "Đang làm chuyên viên chiến lược. Mình giúp các bạn nối lý thuyết chiến lược với cách doanh nghiệp thật ra quyết định.",
+    thanhTich: ["Tốt nghiệp loại Giỏi", "Giải Nhì nghiên cứu khoa học sinh viên cấp trường"],
+    hoatDong: ["Chuyên viên phòng chiến lược 2 năm", "Mentor cuộc thi khởi nghiệp sinh viên"],
+    kyNangMem: ["Tư duy chiến lược", "Phỏng vấn management trainee"],
+  },
+  {
+    id: "t13",
+    hoTen: "Mai Anh Thư",
+    anh: "AT",
+    truongId: "neu",
+    khoaId: "neu-qtkd",
+    chuyenNganh: "Quản trị doanh nghiệp",
+    namNhapHoc: 2023,
+    trangThai: "Sinh viên năm 3",
+    gpa: 3.68,
+    daXacThucBangDiem: true,
+    gioiThieu: "Từng tự mở một shop online từ năm 2, mình dạy Khởi sự kinh doanh bằng chính kinh nghiệm làm thật.",
+    thanhTich: ["Học bổng khuyến khích học tập 3 kỳ", "Giải Ba cuộc thi ý tưởng khởi nghiệp cấp trường"],
+    hoatDong: ["Tự vận hành một cửa hàng online", "Thành viên CLB Khởi nghiệp"],
+    kyNangMem: ["Lập kế hoạch kinh doanh", "Gọi vốn cho dự án nhỏ"],
+  },
 ];
 
 // ---------- Tutor × Môn ----------
@@ -344,6 +405,20 @@ export const tutorMons: TutorMon[] = [
 
   // t10 – GPA 3.55 → không đủ điều kiện dù điểm A+
   { tutorId: "t10", monId: "neu-kttc", diem: "A+", hocKy: "HK1 2024–2025", noiDungKem: ["Ôn tập trọng tâm"], giaBaiGiang: 150000, giaCoach: 300000, giaLopChung: 60000, lichRanh: ["Tối thứ 7"] },
+
+  // t11 – Khoa Quản trị kinh doanh NEU
+  { tutorId: "t11", monId: "neu-qtcl", diem: "A+", hocKy: "HK1 2024–2025", noiDungKem: [...ON_TAP, "Phân tích case"], giaBaiGiang: 220000, giaCoach: 450000, giaLopChung: 90000, lichRanh: ["Tối thứ 3", "Tối thứ 5"] },
+  { tutorId: "t11", monId: "neu-qtcu", diem: "A", hocKy: "HK2 2024–2025", noiDungKem: ON_TAP, giaBaiGiang: 200000, giaCoach: 400000, giaLopChung: 80000, lichRanh: ["Sáng thứ 7"] },
+  { tutorId: "t11", monId: "neu-kskd", diem: "A", hocKy: "HK2 2023–2024", noiDungKem: ["Giảng lại lý thuyết", "Phân tích case"], giaBaiGiang: 180000, giaCoach: 380000, giaLopChung: 75000, lichRanh: ["Chiều chủ nhật"] },
+
+  // t12 – cựu SV: Quản trị vận hành 2 điểm B+ → bị ẩn
+  { tutorId: "t12", monId: "neu-qtcl2", diem: "A+", hocKy: "HK1 2021–2022", noiDungKem: [...ON_TAP, "Ứng dụng vào khoá luận"], giaBaiGiang: 280000, giaCoach: 580000, giaLopChung: 110000, lichRanh: ["Tối thứ 4", "Sáng chủ nhật"] },
+  { tutorId: "t12", monId: "neu-qtcp", diem: "A", hocKy: "HK2 2021–2022", noiDungKem: ["Giảng lại lý thuyết", "Phân tích case"], giaBaiGiang: 250000, giaCoach: 520000, giaLopChung: 100000, lichRanh: ["Tối thứ 6"] },
+  { tutorId: "t12", monId: "neu-qtvh", diem: "B+", hocKy: "HK2 2020–2021", noiDungKem: ["Chữa đề"], giaBaiGiang: 200000, giaCoach: 400000, giaLopChung: 80000, lichRanh: ["Tối thứ 6"] },
+
+  // t13
+  { tutorId: "t13", monId: "neu-kskd", diem: "A+", hocKy: "HK2 2024–2025", noiDungKem: [...ON_TAP, "Lập kế hoạch kinh doanh"], giaBaiGiang: 170000, giaCoach: 350000, giaLopChung: 70000, lichRanh: ["Tối thứ 2", "Chiều thứ 7"] },
+  { tutorId: "t13", monId: "neu-qtvh", diem: "A", hocKy: "HK1 2025–2026", noiDungKem: ["Giảng lại lý thuyết", "Chữa đề"], giaBaiGiang: 160000, giaCoach: 320000, giaLopChung: 65000, lichRanh: ["Tối thứ 4"] },
 ];
 
 // ---------- Đánh giá (theo từng môn) ----------
@@ -412,6 +487,29 @@ export const danhGias: DanhGia[] = [
   { tutorId: "t9", monId: "neu-kttc", soSao: 4, nhanXet: "Nhiệt tình, đúng giờ.", nguoiDanhGia: "Sinh viên năm 2" },
   { tutorId: "t9", monId: "neu-tcdn", soSao: 4, nhanXet: "Giải thích NPV, IRR dễ hiểu.", nguoiDanhGia: "Sinh viên năm 3" },
   { tutorId: "t9", monId: "neu-tcdn", soSao: 5, nhanXet: "Học 1-1 rất hiệu quả.", nguoiDanhGia: "Sinh viên năm 3" },
+
+  // t11
+  { tutorId: "t11", monId: "neu-qtcl", soSao: 5, nhanXet: "Chị phân tích case Toyota rồi mới vào lý thuyết, nhớ lâu hẳn.", nguoiDanhGia: "Sinh viên năm 3" },
+  { tutorId: "t11", monId: "neu-qtcl", soSao: 5, nhanXet: "Các công cụ kiểm soát chất lượng được chị tóm gọn trong 1 trang.", nguoiDanhGia: "Sinh viên năm 3" },
+  { tutorId: "t11", monId: "neu-qtcl", soSao: 4, nhanXet: "Nhiều case hay, lịch hơi kín.", nguoiDanhGia: "Sinh viên năm 2" },
+  { tutorId: "t11", monId: "neu-qtcu", soSao: 5, nhanXet: "Hiểu được hiệu ứng Bullwhip nhờ trò chơi mô phỏng của chị.", nguoiDanhGia: "Sinh viên năm 3" },
+  { tutorId: "t11", monId: "neu-qtcu", soSao: 4, nhanXet: "Dễ hiểu, bài tập vừa sức.", nguoiDanhGia: "Sinh viên năm 3" },
+  { tutorId: "t11", monId: "neu-kskd", soSao: 4, nhanXet: "Chị góp ý kế hoạch kinh doanh của nhóm rất kỹ.", nguoiDanhGia: "Sinh viên năm 2" },
+  { tutorId: "t11", monId: "neu-kskd", soSao: 5, nhanXet: "Bài thuyết trình cuối kỳ nhóm mình được điểm cao.", nguoiDanhGia: "Sinh viên năm 2" },
+
+  // t12
+  { tutorId: "t12", monId: "neu-qtcl2", soSao: 5, nhanXet: "Anh đi làm chiến lược thật nên ví dụ rất sát.", nguoiDanhGia: "Sinh viên năm 3" },
+  { tutorId: "t12", monId: "neu-qtcl2", soSao: 5, nhanXet: "Ma trận SWOT, BCG giờ mình dùng được thật chứ không chỉ học thuộc.", nguoiDanhGia: "Sinh viên năm 4" },
+  { tutorId: "t12", monId: "neu-qtcl2", soSao: 4, nhanXet: "Giá hơi cao nhưng đáng.", nguoiDanhGia: "Sinh viên năm 3" },
+  { tutorId: "t12", monId: "neu-qtcp", soSao: 4, nhanXet: "Phần phân loại và phân bổ chi phí được giải thích rõ ràng.", nguoiDanhGia: "Sinh viên năm 3" },
+  { tutorId: "t12", monId: "neu-qtcp", soSao: 5, nhanXet: "Anh chữa đề rất có tâm.", nguoiDanhGia: "Sinh viên năm 3" },
+
+  // t13
+  { tutorId: "t13", monId: "neu-kskd", soSao: 5, nhanXet: "Chị chia sẻ kinh nghiệm mở shop thật, cực kỳ thực tế.", nguoiDanhGia: "Sinh viên năm 2" },
+  { tutorId: "t13", monId: "neu-kskd", soSao: 5, nhanXet: "Template kế hoạch kinh doanh của chị dùng được luôn.", nguoiDanhGia: "Sinh viên năm 2" },
+  { tutorId: "t13", monId: "neu-kskd", soSao: 4, nhanXet: "Vui, dễ gần.", nguoiDanhGia: "Sinh viên năm 1" },
+  { tutorId: "t13", monId: "neu-qtvh", soSao: 4, nhanXet: "Bài toán hàng tồn kho được giải từng bước.", nguoiDanhGia: "Sinh viên năm 3" },
+  { tutorId: "t13", monId: "neu-qtvh", soSao: 3, nhanXet: "Ổn, nhưng mong có thêm đề luyện.", nguoiDanhGia: "Sinh viên năm 3" },
 ];
 
 // ---------- Bài giảng ----------
@@ -455,6 +553,13 @@ export const baiGiangs: BaiGiang[] = [
   ...taoChuong("t9", "neu-nlkt", ["14:00", "17:30", "20:20", "16:10", "18:55", "15:40"]),
   ...taoChuong("t9", "neu-kttc", ["16:30", "20:15", "22:50", "18:05", "21:30"]),
   ...taoChuong("t9", "neu-tcdn", ["15:15", "19:00", "21:10", "17:25"]),
+  ...taoChuong("t11", "neu-qtcl", ["14:30", "18:10", "20:45", "16:20", "19:05"]),
+  ...taoChuong("t11", "neu-qtcu", ["15:40", "19:20", "17:50", "21:05"]),
+  ...taoChuong("t11", "neu-kskd", ["12:50", "16:15", "18:40", "14:25"]),
+  ...taoChuong("t12", "neu-qtcl2", ["17:30", "22:10", "19:45", "24:00", "20:30", "18:15"]),
+  ...taoChuong("t12", "neu-qtcp", ["16:00", "19:35", "21:50", "17:15"]),
+  ...taoChuong("t13", "neu-kskd", ["13:45", "17:20", "15:55", "19:10", "16:40"]),
+  ...taoChuong("t13", "neu-qtvh", ["14:05", "18:30", "16:50", "20:15"]),
 ];
 
 // ---------- Buổi ôn thi (meeting) sắp tới ----------
@@ -483,6 +588,11 @@ export const buoiOnThis: BuoiOnThi[] = [
   { id: "b7", tutorId: "t9", monId: "neu-nlkt", tieuDe: "Chữa đề Nguyên lý kế toán", batDau: "2026-10-05T19:30", thoiLuongPhut: 90, hinhThuc: "Online – Zoom", soCho: 35, daDangKy: 27 },
   { id: "b8", tutorId: "t1", monId: "ueb-tcc", tieuDe: "Ôn trọng tâm Toán cao cấp", batDau: "2026-10-07T19:00", thoiLuongPhut: 90, hinhThuc: "Online – Google Meet", soCho: 30, daDangKy: 6 },
   // Cố ý: tutor GPA 3.5 → buổi này KHÔNG được hiện
+  { id: "b10", tutorId: "t11", monId: "neu-qtcl", tieuDe: "Chữa đề cuối kỳ Quản trị chất lượng", batDau: "2026-10-01T20:30", thoiLuongPhut: 90, hinhThuc: "Online – Zoom", soCho: 35, daDangKy: 19 },
+  { id: "b11", tutorId: "t13", monId: "neu-kskd", tieuDe: "Workshop viết kế hoạch khởi sự kinh doanh", batDau: "2026-10-04T09:00", thoiLuongPhut: 120, hinhThuc: "Trực tiếp – phòng học nhóm NEU", soCho: 25, daDangKy: 23 },
+  { id: "b12", tutorId: "t12", monId: "neu-qtcl2", tieuDe: "Ôn thi Quản trị chiến lược 2 qua case", batDau: "2026-10-06T20:00", thoiLuongPhut: 90, hinhThuc: "Online – Google Meet", soCho: 30, daDangKy: 14 },
+  // Cố ý: t12 điểm B+ môn này → buổi này KHÔNG được hiện
+  { id: "b13", tutorId: "t12", monId: "neu-qtvh", tieuDe: "Ôn tập Quản trị vận hành 2", batDau: "2026-10-08T19:30", thoiLuongPhut: 90, hinhThuc: "Online – Google Meet", soCho: 30, daDangKy: 5 },
   { id: "b9", tutorId: "t4", monId: "ueb-tcc", tieuDe: "Ôn thi Toán cao cấp", batDau: "2026-10-06T19:00", thoiLuongPhut: 60, hinhThuc: "Online – Google Meet", soCho: 20, daDangKy: 2 },
 ];
 

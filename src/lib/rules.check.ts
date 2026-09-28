@@ -31,5 +31,10 @@ kiemTra(!tutorsDayMon("neu-ktl").some((x) => x.tutor.id === "t8"), "Tutor điể
 kiemTra(!buoiOnThiSapToi().some((x) => x.tutor.id === "t4"), "Buổi ôn thi của tutor GPA 3.5 bị ẩn khỏi lịch");
 kiemTra(!videoTrangChu([]).some((x) => x.tutor.gpa < 3.6), "Feed video trang chủ không có tutor GPA < 3.6");
 
+kiemTra(
+  !tutorsDayMon("neu-qtvh").some((x) => x.tutor.id === "t12") && monNhanDay("t12").length === 2,
+  "Khoa QTKD NEU: cựu SV GPA 3.75 điểm B+ Quản trị vận hành 2 bị ẩn môn đó",
+);
+
 if (loi > 0) throw new Error(`${loi} kiểm tra thất bại`);
 console.log("\nTất cả kiểm tra đều đạt.");
