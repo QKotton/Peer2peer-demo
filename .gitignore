@@ -1,0 +1,9 @@
+node_modules
+dist
+*.local
+.claude/
+*.tsbuildinfo
+
+# Tài liệu nội bộ của nhóm – không đưa lên repo công khai
+FINAL_KTPT.doc
+PEER2PEER_DEMO_SPEC.md
