@@ -47,7 +47,15 @@ Kịch bản gốc trong spec (NEU → Khoa Toán kinh tế → Kinh tế lượ
 - Bấm thẻ để mở trình xem: tài liệu mẫu hiện trang minh hoạ; tài liệu tutor upload xem trực tiếp (PDF, ảnh); tài liệu "Trong gói" bị khoá.
 - Hồ sơ tutor có thêm mục **Tài liệu môn này** trong từng tab môn.
 - Tutor đăng tài liệu ở tab **Tài liệu** (chỉ các môn đủ điều kiện, bắt buộc tích cam kết tự soạn). Tài liệu của tutor không đủ điều kiện tự bị ẩn.
-- Dữ liệu mẫu: `taiLieus` ở cuối `mockData.ts`; gắn file thật bằng trường `fileUrl`.
+- Dữ liệu mẫu: `taiLieus` ở cuối `mockData.ts`.
+
+#### Tự đưa file tài liệu mẫu lên
+
+1. Đặt file vào `public/tai-lieu/` (tên không dấu, không khoảng trắng, vd `tom-tat-kinh-te-luong.pdf`).
+2. Mở `src/data/taiLieuConfig.ts`, thêm dòng `tl1: "tom-tat-kinh-te-luong.pdf",` (id `tl1`, `tl2`… xem trong `taiLieus`).
+3. Push lên GitHub – web tự cập nhật sau 1–2 phút. Định dạng tự nhận theo đuôi file; PDF và ảnh xem trước được, Word/PowerPoint thì tải xuống.
+
+Làm trên giao diện GitHub: vào thư mục `public/tai-lieu` → **Add file → Upload files**, sau đó mở `src/data/taiLieuConfig.ts` → biểu tượng bút chì để sửa → **Commit changes**.
 
 ### Giao diện tutor – 5 tab (bật "Tôi là tutor")
 

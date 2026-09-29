@@ -15,6 +15,7 @@ import {
   type Tutor,
   type TutorMon,
 } from "../data/mockData";
+import { taiLieuConfig } from "../data/taiLieuConfig";
 import { videoConfig } from "../data/videoConfig";
 
 // ---------- Quy tắc cốt lõi ----------
@@ -131,10 +132,21 @@ export function cacMonDangHoc() {
   });
 }
 
+/** Gắn file khai báo trong taiLieuConfig (thư mục public/tai-lieu) và tự nhận định dạng theo đuôi file. */
+function ganFile(tl: TaiLieu): TaiLieu {
+  const ten = taiLieuConfig[tl.id];
+  if (tl.fileUrl || !ten) return tl;
+  const duoi = ten.split(".").pop()?.toLowerCase() ?? "";
+  const dinhDang: TaiLieu["dinhDang"] =
+    duoi === "pdf" ? "PDF" : ["png", "jpg", "jpeg", "webp", "gif"].includes(duoi) ? "Ảnh" : duoi.startsWith("ppt") ? "PPTX" : duoi.startsWith("doc") ? "DOCX" : tl.dinhDang;
+  // Đường dẫn tương đối: chạy được cả khi dev lẫn trên GitHub Pages
+  return { ...tl, dinhDang, fileUrl: `tai-lieu/${ten}` };
+}
+
 /** Tài liệu hiển thị cho người học: có sẵn + tutor vừa upload, chỉ giữ cặp tutor–môn hợp lệ, mới nhất lên đầu. */
 export function taiLieuHienThi(uploadThem: TaiLieu[]) {
   const hopLe = capHopLe();
-  return [...uploadThem, ...taiLieus]
+  return [...uploadThem, ...taiLieus.map(ganFile)]
     .flatMap((tl) => {
       const x = hopLe.find((c) => c.tutor.id === tl.tutorId && c.tm.monId === tl.monId);
       const mon = layMon(tl.monId);
