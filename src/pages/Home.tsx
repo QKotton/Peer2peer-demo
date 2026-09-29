@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Icon } from "../components/icons";
 import ScheduleList from "../components/ScheduleList";
 import VideoCard from "../components/VideoCard";
@@ -20,16 +20,9 @@ const diemKhacBiet = [
 export default function Home() {
   const { baiGiangThem, moBoLoc } = useApp();
   const navigate = useNavigate();
-  const [params] = useSearchParams();
   const [monChon, setMonChon] = useState("Tất cả");
   const [xemHet, setXemHet] = useState(false);
   const [dangXem, setDangXem] = useState<BaiGiang | null>(null);
-  const lichRef = useRef<HTMLElement>(null);
-
-  // "Lịch ôn thi" trên thanh chức năng → cuộn tới khu lịch
-  useEffect(() => {
-    if (params.get("muc") === "lich") lichRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [params]);
 
   const feed = videoTrangChu(baiGiangThem);
   const idMoi = new Set(baiGiangThem.map((b) => b.id));
@@ -97,7 +90,7 @@ export default function Home() {
       </section>
 
       {/* ---------- Lịch ôn thi sắp tới ---------- */}
-      <section ref={lichRef} className="scroll-mt-20">
+      <section>
         <div className="mb-4 flex items-end justify-between gap-3">
           <div>
             <h2 className="flex items-center gap-2 text-xl font-extrabold text-slate-900">

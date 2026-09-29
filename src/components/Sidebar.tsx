@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { cacMonDangHoc } from "../lib/rules";
 import { TAB_TUTOR } from "../lib/tutorTabs";
@@ -12,7 +12,6 @@ const itemCls = (active: boolean) =>
 export default function Sidebar() {
   const { cheDo, moBoLoc, boLoc, sidebarMo, setSidebarMo } = useApp();
   const { pathname, search } = useLocation();
-  const navigate = useNavigate();
   const dong = () => setSidebarMo(false);
 
   const Muc = ({ icon, nhan, to }: { icon: TenIcon; nhan: string; to: string }) => (
@@ -40,17 +39,6 @@ export default function Sidebar() {
       <button type="button" onClick={() => moBoLoc()} className={itemCls(!!boLoc)}>
         <Icon ten="filter" />
         Lọc tutor
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          dong();
-          navigate("/?muc=lich");
-        }}
-        className={itemCls(pathname === "/" && search.includes("muc=lich"))}
-      >
-        <Icon ten="clock" />
-        Lịch ôn thi
       </button>
 
       <hr className="my-3 border-slate-200" />
