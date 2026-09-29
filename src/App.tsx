@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Toast from "./components/Toast";
 import CourseTutors from "./pages/CourseTutors";
+import DocumentLibrary from "./pages/DocumentLibrary";
 import Home from "./pages/Home";
 import MyCalendar from "./pages/MyCalendar";
 import TutorDashboard from "./pages/TutorDashboard";
@@ -29,6 +30,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/mon/:monId" element={<CourseTutors />} />
               <Route path="/lich-cua-toi" element={<MyCalendar />} />
+              <Route path="/tai-lieu" element={<DocumentLibrary />} />
               <Route path="/tutors" element={<TutorDirectory />} />
               <Route path="/tutor/:tutorId" element={<TutorProfile />} />
               <Route path="/tutor-dashboard" element={<TutorDashboard />} />

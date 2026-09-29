@@ -625,3 +625,48 @@ export const suKienCaNhanMacDinh: SuKienCaNhan[] = [
   { id: "sk4", tieuDe: "Thi giữa kỳ Kinh tế lượng", batDau: "2026-10-09T08:00", ketThuc: "2026-10-09T09:30", loai: "thi", ghiChu: "Phòng 301 – nhà E4" },
   { id: "sk5", tieuDe: "Thi giữa kỳ Toán cao cấp", batDau: "2026-10-12T13:30", ketThuc: "2026-10-12T15:00", loai: "thi" },
 ];
+
+// ---------- Kho tài liệu (tutor tự soạn, người học xem) ----------
+// Chỉ hiện tài liệu của cặp tutor–môn đủ điều kiện (đi qua duDieuKienDay).
+// fileUrl = null → hiện bản xem trước minh hoạ; nhóm có thể gắn link PDF thật sau.
+
+export type LoaiTaiLieu = "Tóm tắt lý thuyết" | "Đề cương ôn tập" | "Bài tập có lời giải" | "Đề luyện tập";
+export const LOAI_TAI_LIEU: LoaiTaiLieu[] = ["Tóm tắt lý thuyết", "Đề cương ôn tập", "Bài tập có lời giải", "Đề luyện tập"];
+
+export type TaiLieu = {
+  id: string;
+  tutorId: string;
+  monId: string;
+  tieuDe: string;
+  loai: LoaiTaiLieu;
+  moTa: string;
+  dinhDang: "PDF" | "DOCX" | "PPTX" | "Ảnh";
+  soTrang: number;
+  ngayDang: string; // "YYYY-MM-DD"
+  luotXem: number;
+  mienPhi: boolean; // false = chỉ học viên đã mua gói của tutor
+  fileUrl: string | null;
+};
+
+export const taiLieus: TaiLieu[] = [
+  // UEB – Kinh tế lượng
+  { id: "tl1", tutorId: "t2", monId: "ueb-ktl", tieuDe: "Tóm tắt Kinh tế lượng trong 12 trang", loai: "Tóm tắt lý thuyết", moTa: "Toàn bộ công thức và giả thiết OLS, kiểm định t/F, cách đọc bảng Eviews.", dinhDang: "PDF", soTrang: 12, ngayDang: "2026-09-18", luotXem: 842, mienPhi: true, fileUrl: null },
+  { id: "tl2", tutorId: "t2", monId: "ueb-ktl", tieuDe: "30 bài tập hồi quy có lời giải chi tiết", loai: "Bài tập có lời giải", moTa: "Chia 3 mức độ, lời giải từng bước, có file dữ liệu kèm theo.", dinhDang: "PDF", soTrang: 46, ngayDang: "2026-09-22", luotXem: 515, mienPhi: false, fileUrl: null },
+  { id: "tl3", tutorId: "t1", monId: "ueb-ktl", tieuDe: "Hướng dẫn Stata từ con số 0", loai: "Tóm tắt lý thuyết", moTa: "Cài đặt, nhập dữ liệu, chạy hồi quy và xuất bảng kết quả.", dinhDang: "PPTX", soTrang: 28, ngayDang: "2026-09-10", luotXem: 631, mienPhi: true, fileUrl: null },
+  { id: "tl4", tutorId: "t3", monId: "ueb-ktl", tieuDe: "Đề cương ôn thi cuối kỳ Kinh tế lượng", loai: "Đề cương ôn tập", moTa: "Các dạng câu hỏi thường gặp và checklist ôn tập 2 tuần.", dinhDang: "DOCX", soTrang: 8, ngayDang: "2026-09-25", luotXem: 390, mienPhi: true, fileUrl: null },
+  // UEB – Toán cao cấp
+  { id: "tl5", tutorId: "t3", monId: "ueb-tcc", tieuDe: "Sổ tay công thức Toán cao cấp", loai: "Tóm tắt lý thuyết", moTa: "Ma trận, định thức, đạo hàm, tích phân – gói gọn để ôn nhanh.", dinhDang: "PDF", soTrang: 10, ngayDang: "2026-09-12", luotXem: 1204, mienPhi: true, fileUrl: null },
+  { id: "tl6", tutorId: "t1", monId: "ueb-tcc", tieuDe: "Bộ đề luyện Toán cao cấp tự soạn (5 đề)", loai: "Đề luyện tập", moTa: "5 đề tự soạn bám sát cấu trúc thi, có đáp án cuối file.", dinhDang: "PDF", soTrang: 20, ngayDang: "2026-09-24", luotXem: 477, mienPhi: false, fileUrl: null },
+  { id: "tl7", tutorId: "t2", monId: "ueb-tcc", tieuDe: "Giải hệ phương trình tuyến tính – bài tập mẫu", loai: "Bài tập có lời giải", moTa: "Gauss, Cramer và các bài có tham số.", dinhDang: "PDF", soTrang: 15, ngayDang: "2026-09-16", luotXem: 356, mienPhi: true, fileUrl: null },
+  // UEB – Tài chính – Ngân hàng
+  { id: "tl8", tutorId: "t5", monId: "ueb-tcdn", tieuDe: "Mô hình định giá dòng tiền trên Excel", loai: "Bài tập có lời giải", moTa: "NPV, IRR, WACC qua một case doanh nghiệp giả định.", dinhDang: "PPTX", soTrang: 24, ngayDang: "2026-09-20", luotXem: 288, mienPhi: true, fileUrl: null },
+  // Cố ý: tutor GPA 3.5 → tài liệu này KHÔNG được hiện
+  { id: "tl9", tutorId: "t4", monId: "ueb-tcc", tieuDe: "Mẹo ôn Toán cao cấp", loai: "Tóm tắt lý thuyết", moTa: "Ghi chép cá nhân.", dinhDang: "Ảnh", soTrang: 3, ngayDang: "2026-09-21", luotXem: 40, mienPhi: true, fileUrl: null },
+  // NEU
+  { id: "tl10", tutorId: "t6", monId: "neu-ktl", tieuDe: "Bản chất OLS – giải thích bằng hình học", loai: "Tóm tắt lý thuyết", moTa: "Hiểu vì sao OLS là ước lượng tốt nhất, không cần học thuộc.", dinhDang: "PDF", soTrang: 18, ngayDang: "2026-09-08", luotXem: 953, mienPhi: true, fileUrl: null },
+  { id: "tl11", tutorId: "t7", monId: "neu-tkkt", tieuDe: "Công thức Thống kê kinh tế trên 1 trang", loai: "Tóm tắt lý thuyết", moTa: "In ra mang theo khi ôn, đủ mọi công thức chính.", dinhDang: "Ảnh", soTrang: 1, ngayDang: "2026-09-19", luotXem: 1530, mienPhi: true, fileUrl: null },
+  { id: "tl12", tutorId: "t9", monId: "neu-nlkt", tieuDe: "200 nghiệp vụ định khoản có lời giải", loai: "Bài tập có lời giải", moTa: "Sắp theo chương, có sơ đồ chữ T minh hoạ.", dinhDang: "PDF", soTrang: 38, ngayDang: "2026-09-14", luotXem: 702, mienPhi: false, fileUrl: null },
+  { id: "tl13", tutorId: "t11", monId: "neu-qtcl", tieuDe: "7 công cụ kiểm soát chất lượng qua case", loai: "Tóm tắt lý thuyết", moTa: "Biểu đồ Pareto, xương cá, kiểm soát… áp dụng vào doanh nghiệp thật.", dinhDang: "PPTX", soTrang: 32, ngayDang: "2026-09-23", luotXem: 244, mienPhi: true, fileUrl: null },
+  { id: "tl14", tutorId: "t12", monId: "neu-qtcl2", tieuDe: "Đề cương ôn tập Quản trị chiến lược 2", loai: "Đề cương ôn tập", moTa: "Khung trả lời câu hỏi tình huống và các ma trận chiến lược.", dinhDang: "DOCX", soTrang: 9, ngayDang: "2026-09-26", luotXem: 181, mienPhi: true, fileUrl: null },
+  { id: "tl15", tutorId: "t13", monId: "neu-kskd", tieuDe: "Template kế hoạch khởi sự kinh doanh", loai: "Đề cương ôn tập", moTa: "Mẫu kế hoạch kinh doanh 10 mục kèm ví dụ điền sẵn.", dinhDang: "DOCX", soTrang: 14, ngayDang: "2026-09-27", luotXem: 322, mienPhi: true, fileUrl: null },
+];

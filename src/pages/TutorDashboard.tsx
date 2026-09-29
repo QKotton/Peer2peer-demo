@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
+import DocumentManager from "../components/tutor/DocumentManager";
 import EvidenceUpload from "../components/tutor/EvidenceUpload";
 import { inputCls, labelCls } from "../components/tutor/formUi";
 import LectureManager from "../components/tutor/LectureManager";
@@ -86,6 +87,7 @@ export default function TutorDashboard() {
       {tab === "mon-day" && <SubjectRegistration key={tutor.id} tutor={tutor} />}
       {tab === "minh-chung" && <EvidenceUpload key={tutor.id} tutor={tutor} />}
       {tab === "bai-giang" && <LectureManager key={tutor.id} tutor={tutor} />}
+      {tab === "tai-lieu" && <DocumentManager key={tutor.id} tutor={tutor} />}
     </div>
   );
 }

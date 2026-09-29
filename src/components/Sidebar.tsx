@@ -33,6 +33,10 @@ export default function Sidebar() {
         <Icon ten="users" />
         Tutor
       </Link>
+      <Link to="/tai-lieu" onClick={dong} className={itemCls(pathname === "/tai-lieu")}>
+        <Icon ten="file" />
+        Kho tài liệu
+      </Link>
       <button type="button" onClick={() => moBoLoc()} className={itemCls(!!boLoc)}>
         <Icon ten="filter" />
         Lọc tutor

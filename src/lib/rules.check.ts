@@ -1,6 +1,6 @@
 
 import { monHocs, tutorMons, tutors } from "../data/mockData";
-import { buoiOnThiSapToi, duDieuKienDay, monNhanDay, tutorsDayMon, videoTrangChu } from "./rules";
+import { buoiOnThiSapToi, duDieuKienDay, taiLieuHienThi, monNhanDay, tutorsDayMon, videoTrangChu } from "./rules";
 
 let loi = 0;
 function kiemTra(dieuKien: boolean, moTa: string) {
@@ -35,6 +35,7 @@ kiemTra(
   !tutorsDayMon("neu-qtvh").some((x) => x.tutor.id === "t12") && monNhanDay("t12").length === 2,
   "Khoa QTKD NEU: cựu SV GPA 3.75 điểm B+ Quản trị vận hành 2 bị ẩn môn đó",
 );
+kiemTra(!taiLieuHienThi([]).some((x) => x.tutor.gpa < 3.6), "Kho tài liệu không có tài liệu của tutor GPA < 3.6");
 
 if (loi > 0) throw new Error(`${loi} kiểm tra thất bại`);
 console.log("\nTất cả kiểm tra đều đạt.");

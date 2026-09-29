@@ -1,12 +1,14 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
+import DocCard from "../components/docs/DocCard";
+import DocViewer from "../components/docs/DocViewer";
 import LectureList from "../components/LectureList";
 import ReviewList from "../components/ReviewList";
 import ServicePackages from "../components/ServicePackages";
 import { Avatar, Chip, HuyHieuXacThuc, Sao } from "../components/ui";
 import { khoaMinhChung, useApp, useDangPhatTrien } from "../context/AppContext";
 import type { BaiGiang, MonHoc, Tutor, TutorMon } from "../data/mockData";
-import { baiGiangCua, danhGiaCuaMon, layKhoa, layTruong, layTutor, monNhanDay, saoTrungBinh } from "../lib/rules";
+import { baiGiangCua, danhGiaCuaMon, layKhoa, layTruong, layTutor, monNhanDay, saoTrungBinh, taiLieuHienThi } from "../lib/rules";
 
 function Khoi({ tieuDe, ds }: { tieuDe: string; ds: string[] }) {
   return (
@@ -177,6 +179,10 @@ function TangMon({
   idMoi: Set<string>;
 }) {
   const sao = saoTrungBinh(tutorId, mon.id);
+  const { taiLieuThem } = useApp();
+  const taiLieu = taiLieuHienThi(taiLieuThem).filter((x) => x.tutor.id === tutorId && x.mon.id === mon.id);
+  const [xemTaiLieu, setXemTaiLieu] = useState<string | null>(null);
+  const dangXemTL = taiLieu.find((x) => x.tl.id === xemTaiLieu);
   return (
     <div role="tabpanel" className="space-y-8 rounded-2xl bg-blue-50/50 p-4 ring-1 ring-blue-100 sm:p-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -220,6 +226,17 @@ function TangMon({
       <Muc tieuDe={`Bài giảng (${baiGiang.length} chương)`}>
         <LectureList ds={baiGiang} laChuongMoi={(id) => idMoi.has(id)} />
       </Muc>
+
+      {taiLieu.length > 0 && (
+        <Muc tieuDe={`Tài liệu môn này (${taiLieu.length})`}>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {taiLieu.map((x) => (
+              <DocCard key={x.tl.id} {...x} onMo={() => setXemTaiLieu(x.tl.id)} />
+            ))}
+          </div>
+          {dangXemTL && <DocViewer {...dangXemTL} onDong={() => setXemTaiLieu(null)} />}
+        </Muc>
+      )}
 
       <Muc tieuDe={`Đánh giá môn ${mon.ten}`}>
         <ReviewList ds={danhGiaCuaMon(tutorId, mon.id)} />

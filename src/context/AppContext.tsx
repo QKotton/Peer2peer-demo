@@ -6,6 +6,7 @@ import {
   tutors,
   type BaiGiang,
   type SuKienCaNhan,
+  type TaiLieu,
   type Tutor,
   type TutorMon,
 } from "../data/mockData";
@@ -57,6 +58,10 @@ type AppState = {
   suKien: SuKienCaNhan[];
   themSuKien: (sk: SuKienCaNhan) => void;
   xoaSuKien: (id: string) => void;
+  // --- Kho tài liệu ---
+  taiLieuThem: TaiLieu[];
+  themTaiLieu: (tl: TaiLieu) => void;
+  xoaTaiLieu: (id: string) => void;
 };
 
 const AppContext = createContext<AppState | null>(null);
@@ -79,6 +84,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const huyDangKyBuoi = (id: string) => setBuoiDaDangKy((ds) => ds.filter((x) => x !== id));
   const themSuKien = (sk: SuKienCaNhan) => setSuKien((ds) => [...ds, sk]);
   const xoaSuKien = (id: string) => setSuKien((ds) => ds.filter((x) => x.id !== id));
+  const [taiLieuThem, setTaiLieuThem] = useState<TaiLieu[]>([]);
+  const themTaiLieu = (tl: TaiLieu) => setTaiLieuThem((ds) => [tl, ...ds]);
+  const xoaTaiLieu = (id: string) =>
+    setTaiLieuThem((ds) => {
+      const tl = ds.find((x) => x.id === id);
+      // Thu hồi object URL để tránh rò bộ nhớ
+      if (tl?.fileUrl?.startsWith("blob:")) URL.revokeObjectURL(tl.fileUrl);
+      return ds.filter((x) => x.id !== id);
+    });
   // Tăng mỗi khi dữ liệu tutor bị sửa để các trang vẽ lại
   const [, setPhienBan] = useState(0);
   const lamMoi = () => setPhienBan((v) => v + 1);
@@ -195,6 +209,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         suKien,
         themSuKien,
         xoaSuKien,
+        taiLieuThem,
+        themTaiLieu,
+        xoaTaiLieu,
       }}
     >
       {children}

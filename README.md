@@ -40,7 +40,16 @@ Kịch bản gốc trong spec (NEU → Khoa Toán kinh tế → Kinh tế lượ
 - Nút **"Đăng ký tham gia"** ở khu lịch ôn thi trang chủ giờ đăng ký thật: buổi học tự vào Lịch của tôi, số chỗ giảm 1.
 - Dữ liệu mẫu: `buoiDaDangKyMacDinh` và `suKienCaNhanMacDinh` ở cuối `mockData.ts` (sự kiện rơi vào 28/9 – 12/10/2026).
 
-### Giao diện tutor – 4 tab (bật "Tôi là tutor")
+### Kho tài liệu
+
+- Mục **Kho tài liệu** trên thanh bên trái: tóm tắt lý thuyết, đề cương, bài tập có lời giải, đề luyện do tutor tự soạn.
+- Lọc theo **Trường** (chip, có đếm số tài liệu) → Khoa → Môn, theo loại tài liệu, tìm theo từ khoá (không cần gõ dấu), sắp xếp mới nhất / xem nhiều. Bộ lọc nằm trên URL nên gửi link được, vd `#/tai-lieu?truong=ueb`.
+- Bấm thẻ để mở trình xem: tài liệu mẫu hiện trang minh hoạ; tài liệu tutor upload xem trực tiếp (PDF, ảnh); tài liệu "Trong gói" bị khoá.
+- Hồ sơ tutor có thêm mục **Tài liệu môn này** trong từng tab môn.
+- Tutor đăng tài liệu ở tab **Tài liệu** (chỉ các môn đủ điều kiện, bắt buộc tích cam kết tự soạn). Tài liệu của tutor không đủ điều kiện tự bị ẩn.
+- Dữ liệu mẫu: `taiLieus` ở cuối `mockData.ts`; gắn file thật bằng trường `fileUrl`.
+
+### Giao diện tutor – 5 tab (bật "Tôi là tutor")
 
 | Tab | Làm được gì |
 | --- | --- |
@@ -48,6 +57,7 @@ Kịch bản gốc trong spec (NEU → Khoa Toán kinh tế → Kinh tế lượ
 | **Môn dạy** | Danh sách môn đã đăng ký (kèm trạng thái "Đang hiển thị" / "Không đủ điều kiện · đang ẩn"). Form **Đăng ký môn mới**: chọn khoa, môn, điểm, lịch rảnh, 3 mức giá; kiểm tra điều kiện ngay khi chọn điểm – B+ thì nút đăng ký bị khoá. |
 | **Minh chứng** | Upload **bảng điểm** (bắt buộc), **thẻ sinh viên / bằng tốt nghiệp**, và minh chứng cho **từng thành tích** (ảnh hoặc PDF ≤ 10 MB). Có xem trước, trạng thái "Đang xác thực…" → "Đã xác thực" (mô phỏng 2,5 giây). Minh chứng đã xác thực hiện ở hồ sơ công khai. |
 | **Bài giảng** | Thêm chương video cho các môn đủ điều kiện (như bước 5). |
+| **Tài liệu** | Đăng PDF / Word / PowerPoint / ảnh lên Kho tài liệu, chọn môn, loại, quyền xem (miễn phí hoặc trong gói). |
 
 Kịch bản gợi ý: tab Môn dạy → đăng ký "Nguyên lý kế toán" điểm B+ (bị chặn) → đổi sang A (đăng ký được) → chuyển "Người học" → mục Tutor → chip "Nguyên lý kế toán · UEB" → thấy tutor vừa đăng ký.
 

@@ -4,6 +4,7 @@ export const TAB_TUTOR = [
   { id: "mon-day", nhan: "Môn dạy", icon: "book" },
   { id: "minh-chung", nhan: "Minh chứng", icon: "shield" },
   { id: "bai-giang", nhan: "Bài giảng", icon: "video" },
+  { id: "tai-lieu", nhan: "Tài liệu", icon: "file" },
 ] as const;
 
 export type TabTutorId = (typeof TAB_TUTOR)[number]["id"];

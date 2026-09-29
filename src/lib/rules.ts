@@ -5,11 +5,13 @@ import {
   khoas,
   monDangHoc,
   monHocs,
+  taiLieus,
   truongs,
   tutorMons,
   tutors,
   type BaiGiang,
   type MonHoc,
+  type TaiLieu,
   type Tutor,
   type TutorMon,
 } from "../data/mockData";
@@ -127,4 +129,16 @@ export function cacMonDangHoc() {
     const mon = layMon(monId);
     return x && mon ? [{ mon, tutor: x.tutor, truong: truongCuaMon(mon).truong }] : [];
   });
+}
+
+/** Tài liệu hiển thị cho người học: có sẵn + tutor vừa upload, chỉ giữ cặp tutor–môn hợp lệ, mới nhất lên đầu. */
+export function taiLieuHienThi(uploadThem: TaiLieu[]) {
+  const hopLe = capHopLe();
+  return [...uploadThem, ...taiLieus]
+    .flatMap((tl) => {
+      const x = hopLe.find((c) => c.tutor.id === tl.tutorId && c.tm.monId === tl.monId);
+      const mon = layMon(tl.monId);
+      return x && mon ? [{ tl, tutor: x.tutor, mon, ...truongCuaMon(mon) }] : [];
+    })
+    .sort((a, b) => b.tl.ngayDang.localeCompare(a.tl.ngayDang));
 }
