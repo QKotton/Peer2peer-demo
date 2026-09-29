@@ -40,7 +40,7 @@ export default function Header() {
           </Link>
         </div>
 
-        {
+        
         <button
           type="button"
           onClick={() => moBoLoc()}
