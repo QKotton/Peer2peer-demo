@@ -1,4 +1,4 @@
-// Kiểm tra nhanh các ca bắt buộc ở mục 4 của spec. Chạy: npm run check
+
 import { monHocs, tutorMons, tutors } from "../data/mockData";
 import { buoiOnThiSapToi, duDieuKienDay, monNhanDay, tutorsDayMon, videoTrangChu } from "./rules";
 
