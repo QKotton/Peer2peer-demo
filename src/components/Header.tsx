@@ -35,7 +35,7 @@ export default function Header() {
             <span className="grid h-9 w-9 place-items-center rounded-lg bg-blue-700 text-xs font-extrabold text-white">P2P</span>
             <span className="hidden leading-tight sm:block">
               <span className="block text-lg font-extrabold tracking-tight text-slate-900">Peer2Peer</span>
-              <span className="block text-xs text-slate-500">Pizza</span>
+              <span className="block text-xs text-slate-500">Pioneers to Partners</span>
             </span>
           </Link>
         </div>
