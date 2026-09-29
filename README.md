@@ -32,6 +32,14 @@ Kịch bản gốc trong spec (NEU → Khoa Toán kinh tế → Kinh tế lượ
 - Mục **Tutor** trên thanh bên trái: danh bạ profile chung của mọi tutor đủ điều kiện (GPA, huy hiệu, giới thiệu, thành tích, các môn dạy kèm điểm).
 - Hàng chip **lọc theo môn học** (vd "Toán cao cấp · UEB") + ô tìm theo tên. Bấm "Xem hồ sơ" để mở hồ sơ đầy đủ.
 
+### Lịch của tôi (cá nhân hoá, kiểu Google Calendar)
+
+- Mục **Lịch của tôi** trên thanh bên trái. Xem theo **Ngày / Tuần / Tháng**, nút "Hôm nay", ‹ ›, lịch tháng thu nhỏ, danh sách "Sắp tới"; vạch đỏ là giờ hiện tại.
+- 4 lớp lịch bật/tắt được: **buổi ôn thi đã đăng ký** (xanh), **gợi ý** – các buổi ôn thi của môn bạn đang học mà chưa đăng ký (viền nét đứt), **lịch cá nhân** (xanh lá), **lịch thi & hạn nộp** (đỏ).
+- Bấm ô trống để tạo sự kiện; bấm sự kiện để xem chi tiết, đăng ký / huỷ đăng ký buổi ôn thi hoặc xoá sự kiện.
+- Nút **"Đăng ký tham gia"** ở khu lịch ôn thi trang chủ giờ đăng ký thật: buổi học tự vào Lịch của tôi, số chỗ giảm 1.
+- Dữ liệu mẫu: `buoiDaDangKyMacDinh` và `suKienCaNhanMacDinh` ở cuối `mockData.ts` (sự kiện rơi vào 28/9 – 12/10/2026).
+
 ### Giao diện tutor – 4 tab (bật "Tôi là tutor")
 
 | Tab | Làm được gì |

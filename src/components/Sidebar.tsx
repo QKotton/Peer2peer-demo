@@ -25,6 +25,10 @@ export default function Sidebar() {
   const noiDung = (
     <nav className="flex h-full flex-col gap-1 overflow-y-auto p-3" aria-label="Thanh chức năng">
       <Muc icon="home" nhan="Trang chủ" to="/" />
+      <Link to="/lich-cua-toi" onClick={dong} className={itemCls(pathname === "/lich-cua-toi")}>
+        <Icon ten="calendar" />
+        Lịch của tôi
+      </Link>
       <Link to="/tutors" onClick={dong} className={itemCls(pathname === "/tutors")}>
         <Icon ten="users" />
         Tutor
@@ -41,7 +45,7 @@ export default function Sidebar() {
         }}
         className={itemCls(pathname === "/" && search.includes("muc=lich"))}
       >
-        <Icon ten="calendar" />
+        <Icon ten="clock" />
         Lịch ôn thi
       </button>
 

@@ -1,5 +1,14 @@
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
-import { tutorMons, tutors, type BaiGiang, type Tutor, type TutorMon } from "../data/mockData";
+import {
+  buoiDaDangKyMacDinh,
+  suKienCaNhanMacDinh,
+  tutorMons,
+  tutors,
+  type BaiGiang,
+  type SuKienCaNhan,
+  type Tutor,
+  type TutorMon,
+} from "../data/mockData";
 
 type CheDo = "hoc" | "tutor";
 
@@ -41,6 +50,13 @@ type AppState = {
   layMinhChung: (khoa: string) => MinhChung | undefined;
   nopMinhChung: (khoa: string, file: File) => void;
   xoaMinhChung: (khoa: string) => void;
+  // --- Lịch của tôi ---
+  buoiDaDangKy: string[];
+  dangKyBuoi: (id: string) => void;
+  huyDangKyBuoi: (id: string) => void;
+  suKien: SuKienCaNhan[];
+  themSuKien: (sk: SuKienCaNhan) => void;
+  xoaSuKien: (id: string) => void;
 };
 
 const AppContext = createContext<AppState | null>(null);
@@ -57,6 +73,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [boLoc, setBoLoc] = useState<BoLoc | null>(null);
   const [sidebarMo, setSidebarMo] = useState(false);
   const [minhChung, setMinhChung] = useState<Record<string, MinhChung>>({});
+  const [buoiDaDangKy, setBuoiDaDangKy] = useState<string[]>(buoiDaDangKyMacDinh);
+  const [suKien, setSuKien] = useState<SuKienCaNhan[]>(suKienCaNhanMacDinh);
+  const dangKyBuoi = (id: string) => setBuoiDaDangKy((ds) => (ds.includes(id) ? ds : [...ds, id]));
+  const huyDangKyBuoi = (id: string) => setBuoiDaDangKy((ds) => ds.filter((x) => x !== id));
+  const themSuKien = (sk: SuKienCaNhan) => setSuKien((ds) => [...ds, sk]);
+  const xoaSuKien = (id: string) => setSuKien((ds) => ds.filter((x) => x.id !== id));
   // Tăng mỗi khi dữ liệu tutor bị sửa để các trang vẽ lại
   const [, setPhienBan] = useState(0);
   const lamMoi = () => setPhienBan((v) => v + 1);
@@ -167,6 +189,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         layMinhChung,
         nopMinhChung,
         xoaMinhChung,
+        buoiDaDangKy,
+        dangKyBuoi,
+        huyDangKyBuoi,
+        suKien,
+        themSuKien,
+        xoaSuKien,
       }}
     >
       {children}

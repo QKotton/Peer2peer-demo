@@ -603,3 +603,25 @@ export const monDangHoc: { monId: string; tutorId: string }[] = [
   { monId: "ueb-ktl", tutorId: "t2" },
   { monId: "ueb-tcc", tutorId: "t3" },
 ];
+
+// ---------- Lịch cá nhân của người học (trang "Lịch của tôi") ----------
+
+/** Buổi ôn thi người học đã đăng ký sẵn (id trong buoiOnThis). */
+export const buoiDaDangKyMacDinh: string[] = ["b1", "b2"];
+
+export type SuKienCaNhan = {
+  id: string;
+  tieuDe: string;
+  batDau: string; // "YYYY-MM-DDTHH:mm"
+  ketThuc: string;
+  loai: "ca-nhan" | "thi"; // lịch cá nhân | lịch thi & hạn nộp
+  ghiChu?: string;
+};
+
+export const suKienCaNhanMacDinh: SuKienCaNhan[] = [
+  { id: "sk1", tieuDe: "Học nhóm Kinh tế lượng", batDau: "2026-09-30T14:00", ketThuc: "2026-09-30T16:00", loai: "ca-nhan", ghiChu: "Thư viện tầng 3" },
+  { id: "sk2", tieuDe: "Nộp bài tập lớn Toán cao cấp", batDau: "2026-10-02T23:00", ketThuc: "2026-10-02T23:30", loai: "thi" },
+  { id: "sk3", tieuDe: "Tự ôn chương 3–4 Kinh tế lượng", batDau: "2026-10-03T19:30", ketThuc: "2026-10-03T21:30", loai: "ca-nhan" },
+  { id: "sk4", tieuDe: "Thi giữa kỳ Kinh tế lượng", batDau: "2026-10-09T08:00", ketThuc: "2026-10-09T09:30", loai: "thi", ghiChu: "Phòng 301 – nhà E4" },
+  { id: "sk5", tieuDe: "Thi giữa kỳ Toán cao cấp", batDau: "2026-10-12T13:30", ketThuc: "2026-10-12T15:00", loai: "thi" },
+];
