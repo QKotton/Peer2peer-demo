@@ -42,12 +42,12 @@ export function monNhanDay(tutorId: string): { mon: MonHoc; tm: TutorMon }[] {
     .map(({ tm }) => ({ mon: layMon(tm.monId)!, tm }));
 }
 
-/** Tutor có ít nhất một môn đủ điều kiện (dùng cho dropdown "đóng vai" ở chế độ tutor). */
+
 export function tutorsCoTheDay(): Tutor[] {
   return tutors.filter((t) => monNhanDay(t.id).length > 0);
 }
 
-// ---------- Đánh giá, giá ----------
+
 
 export function danhGiaCuaMon(tutorId: string, monId: string) {
   return danhGias.filter((d) => d.tutorId === tutorId && d.monId === monId);
