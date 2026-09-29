@@ -2,8 +2,10 @@ import { useState } from "react";
 import { CreateDialog, EventDialog } from "../components/calendar/Dialogs";
 import MiniMonth from "../components/calendar/MiniMonth";
 import MonthGrid from "../components/calendar/MonthGrid";
-import { LICH, useSuKienLich, type LoaiLich, type SuKienLich } from "../components/calendar/suKienLich";
+import { useCacLopLich, useSuKienLich, type LoaiLich, type SuKienLich } from "../components/calendar/suKienLich";
 import TimeGrid from "../components/calendar/TimeGrid";
+import { useApp } from "../context/AppContext";
+import { layTutor } from "../lib/rules";
 import { congNgay, dauNgay, dauTuan, gioPhut, ngayDai, tenThang, THU_NGAN } from "../lib/lich";
 
 type CheDoXem = "ngay" | "tuan" | "thang";
@@ -22,7 +24,11 @@ export default function MyCalendar() {
   const homNay = new Date();
   const [ngay, setNgay] = useState(() => dauNgay(homNay));
   const [xem, setXem] = useState<CheDoXem>(() => (window.innerWidth < 640 ? "ngay" : "tuan"));
-  const [hien, setHien] = useState<Record<LoaiLich, boolean>>({ "on-thi": true, "goi-y": true, "ca-nhan": true, thi: true });
+  const [hien, setHien] = useState<Record<LoaiLich, boolean>>({ "on-thi": true, "goi-y": true, "ca-nhan": true, thi: true, "day-nhom": true, coach: true });
+  // Chế độ tutor: chỉ xem lịch dạy, không tạo sự kiện cá nhân
+  const { cheDo, tutorDongVaiId } = useApp();
+  const laTutor = cheDo === "tutor";
+  const cacLop = useCacLopLich();
   const [chiTiet, setChiTiet] = useState<SuKienLich | null>(null);
   const [taoTai, setTaoTai] = useState<Date | null>(null);
 
@@ -39,10 +45,13 @@ export default function MyCalendar() {
     setNgay(dauNgay(d));
     setXem("ngay");
   };
+  const moTao = (d: Date) => {
+    if (!laTutor) setTaoTai(d);
+  };
   const taoMacDinh = () => {
     const d = new Date(ngay);
     d.setHours(homNay.getHours() + 1, 0, 0, 0);
-    setTaoTai(d);
+    moTao(d);
   };
 
   const nutTron = "grid h-9 w-9 place-items-center rounded-full text-lg text-slate-600 hover:bg-slate-100";
@@ -51,6 +60,13 @@ export default function MyCalendar() {
     <div className="-mx-4 -my-6 flex h-[calc(100vh-4rem)] min-h-[560px] bg-white sm:-mx-6">
       {/* ---------- Cột trái ---------- */}
       <aside className="hidden w-64 shrink-0 flex-col gap-6 overflow-y-auto border-r border-slate-200 p-4 lg:flex">
+        {laTutor ? (
+          <div className="rounded-2xl bg-indigo-50 p-4 ring-1 ring-indigo-100">
+            <p className="text-xs font-semibold uppercase tracking-wide text-indigo-700">Lịch dạy</p>
+            <p className="mt-0.5 font-bold text-slate-900">{layTutor(tutorDongVaiId)?.hoTen}</p>
+            <p className="mt-1 text-xs text-slate-600">Lớp ôn thi bạn tổ chức và các buổi coach 1-1 với học viên.</p>
+          </div>
+        ) : (
         <button
           type="button"
           onClick={taoMacDinh}
@@ -59,12 +75,13 @@ export default function MyCalendar() {
           <span className="text-2xl leading-none text-blue-600">＋</span>
           Tạo
         </button>
+        )}
 
         <MiniMonth ngayChon={ngay} homNay={homNay} suKien={tatCa} onChon={(d) => setNgay(dauNgay(d))} />
 
         <div>
-          <p className="mb-2 px-1 text-sm font-semibold text-slate-800">Lịch của tôi</p>
-          {LICH.map((l) => (
+          <p className="mb-2 px-1 text-sm font-semibold text-slate-800">{laTutor ? "Lịch dạy của tôi" : "Lịch của tôi"}</p>
+          {cacLop.map((l) => (
             <label key={l.loai} className="flex cursor-pointer items-center gap-3 rounded-lg px-1 py-1.5 text-sm text-slate-700 hover:bg-slate-50">
               <input
                 type="checkbox"
@@ -83,7 +100,7 @@ export default function MyCalendar() {
         <div>
           <p className="mb-2 px-1 text-sm font-semibold text-slate-800">Sắp tới</p>
           {sapToi.length === 0 ? (
-            <p className="px-1 text-sm text-slate-500">Không có sự kiện nào sắp tới.</p>
+            <p className="px-1 text-sm text-slate-500">{laTutor ? "Không có buổi dạy nào sắp tới." : "Không có sự kiện nào sắp tới."}</p>
           ) : (
             <ul className="space-y-1">
               {sapToi.map((s) => (
@@ -137,18 +154,20 @@ export default function MyCalendar() {
               </button>
             ))}
           </div>
-          <button
-            type="button"
-            onClick={taoMacDinh}
-            className="grid h-9 w-9 place-items-center rounded-full bg-blue-600 text-xl text-white shadow lg:hidden"
-            aria-label="Tạo sự kiện"
-          >
-            ＋
-          </button>
+          {!laTutor && (
+            <button
+              type="button"
+              onClick={taoMacDinh}
+              className="grid h-9 w-9 place-items-center rounded-full bg-blue-600 text-xl text-white shadow lg:hidden"
+              aria-label="Tạo sự kiện"
+            >
+              ＋
+            </button>
+          )}
         </div>
 
         {xem === "thang" ? (
-          <MonthGrid thang={ngay} homNay={homNay} suKien={suKien} onChonSuKien={setChiTiet} onTaoTai={setTaoTai} onChonNgay={moNgay} />
+          <MonthGrid thang={ngay} homNay={homNay} suKien={suKien} onChonSuKien={setChiTiet} onTaoTai={moTao} onChonNgay={moNgay} />
         ) : (
           <TimeGrid
             key={xem}
@@ -156,7 +175,7 @@ export default function MyCalendar() {
             homNay={homNay}
             suKien={suKien}
             onChonSuKien={setChiTiet}
-            onTaoTai={setTaoTai}
+            onTaoTai={moTao}
             onChonNgay={moNgay}
           />
         )}

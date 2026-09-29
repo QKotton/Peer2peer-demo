@@ -670,3 +670,31 @@ export const taiLieus: TaiLieu[] = [
   { id: "tl14", tutorId: "t12", monId: "neu-qtcl2", tieuDe: "Đề cương ôn tập Quản trị chiến lược 2", loai: "Đề cương ôn tập", moTa: "Khung trả lời câu hỏi tình huống và các ma trận chiến lược.", dinhDang: "DOCX", soTrang: 9, ngayDang: "2026-09-26", luotXem: 181, mienPhi: true, fileUrl: null },
   { id: "tl15", tutorId: "t13", monId: "neu-kskd", tieuDe: "Template kế hoạch khởi sự kinh doanh", loai: "Đề cương ôn tập", moTa: "Mẫu kế hoạch kinh doanh 10 mục kèm ví dụ điền sẵn.", dinhDang: "DOCX", soTrang: 14, ngayDang: "2026-09-27", luotXem: 322, mienPhi: true, fileUrl: null },
 ];
+
+// ---------- Buổi coach 1-1 (hiện ở lịch dạy của tutor) ----------
+// Thuộc gói coach: nhắn tin hỏi đáp + 1 buổi 1-1 dài 90 phút. Học viên để ẩn danh.
+
+export type BuoiCoach = {
+  id: string;
+  tutorId: string;
+  monId: string;
+  hocVien: string;
+  batDau: string; // "YYYY-MM-DDTHH:mm"
+  thoiLuongPhut: number;
+  hinhThuc: string;
+};
+
+export const buoiCoachs: BuoiCoach[] = [
+  { id: "c1", tutorId: "t2", monId: "ueb-ktl", hocVien: "Học viên SV năm 2 – UEB", batDau: "2026-09-28T20:00", thoiLuongPhut: 90, hinhThuc: "Online – Google Meet" },
+  { id: "c2", tutorId: "t2", monId: "ueb-tcc", hocVien: "Học viên SV năm 1 – UEB", batDau: "2026-09-30T19:00", thoiLuongPhut: 90, hinhThuc: "Online – Google Meet" },
+  { id: "c3", tutorId: "t2", monId: "ueb-ktl", hocVien: "Học viên SV năm 3 – UEB", batDau: "2026-10-02T18:00", thoiLuongPhut: 90, hinhThuc: "Trực tiếp – thư viện UEB" },
+  { id: "c4", tutorId: "t2", monId: "ueb-ktl", hocVien: "Học viên SV năm 2 – UEB", batDau: "2026-10-04T15:00", thoiLuongPhut: 90, hinhThuc: "Online – Google Meet" },
+  { id: "c5", tutorId: "t2", monId: "ueb-tcc", hocVien: "Học viên SV năm 1 – UEB", batDau: "2026-10-06T20:00", thoiLuongPhut: 90, hinhThuc: "Online – Zoom" },
+  { id: "c6", tutorId: "t1", monId: "ueb-ktl", hocVien: "Học viên SV năm 2 – UEB", batDau: "2026-09-29T20:30", thoiLuongPhut: 90, hinhThuc: "Online – Google Meet" },
+  { id: "c7", tutorId: "t1", monId: "ueb-vimo", hocVien: "Học viên SV năm 1 – UEB", batDau: "2026-10-03T14:00", thoiLuongPhut: 90, hinhThuc: "Online – Google Meet" },
+  { id: "c8", tutorId: "t3", monId: "ueb-tcc", hocVien: "Học viên SV năm 1 – UEB", batDau: "2026-10-01T20:00", thoiLuongPhut: 90, hinhThuc: "Online – Zoom" },
+  { id: "c9", tutorId: "t6", monId: "neu-ktl", hocVien: "Học viên SV năm 2 – NEU", batDau: "2026-09-30T20:00", thoiLuongPhut: 90, hinhThuc: "Online – Zoom" },
+  { id: "c10", tutorId: "t11", monId: "neu-qtcl", hocVien: "Học viên SV năm 3 – NEU", batDau: "2026-10-02T19:30", thoiLuongPhut: 90, hinhThuc: "Online – Google Meet" },
+  // Cố ý: t12 điểm B+ môn Quản trị vận hành 2 → buổi này KHÔNG hiện
+  { id: "c11", tutorId: "t12", monId: "neu-qtvh", hocVien: "Học viên SV năm 3 – NEU", batDau: "2026-10-05T20:00", thoiLuongPhut: 90, hinhThuc: "Online – Zoom" },
+];

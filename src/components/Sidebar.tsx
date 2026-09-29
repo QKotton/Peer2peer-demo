@@ -27,7 +27,7 @@ export default function Sidebar() {
       <Muc icon="home" nhan="Trang chủ" to="/" />
       <Link to="/lich-cua-toi" onClick={dong} className={itemCls(pathname === "/lich-cua-toi")}>
         <Icon ten="calendar" />
-        Lịch của tôi
+        {cheDo === "tutor" ? "Lịch dạy" : "Lịch của tôi"}
       </Link>
       <Link to="/tutors" onClick={dong} className={itemCls(pathname === "/tutors")}>
         <Icon ten="users" />

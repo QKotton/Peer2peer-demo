@@ -60,6 +60,7 @@ export function EventDialog({ s, onDong }: { s: SuKienLich; onDong: () => void }
             </Link>
           </Dong>
         )}
+        {s.hocVien && <Dong icon="users">{s.hocVien}</Dong>}
         {s.diaDiem && <Dong icon="pin">{s.diaDiem}</Dong>}
         {s.ghiChu && <Dong icon="pin">{s.ghiChu}</Dong>}
         {s.conCho !== undefined && <Dong icon="users">{s.conCho > 0 ? `Còn ${s.conCho} chỗ` : "Đã kín chỗ"}</Dong>}

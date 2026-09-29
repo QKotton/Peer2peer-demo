@@ -38,6 +38,7 @@ Kịch bản gốc trong spec (NEU → Khoa Toán kinh tế → Kinh tế lượ
 - 4 lớp lịch bật/tắt được: **buổi ôn thi đã đăng ký** (xanh), **gợi ý** – các buổi ôn thi của môn bạn đang học mà chưa đăng ký (viền nét đứt), **lịch cá nhân** (xanh lá), **lịch thi & hạn nộp** (đỏ).
 - Bấm ô trống để tạo sự kiện; bấm sự kiện để xem chi tiết, đăng ký / huỷ đăng ký buổi ôn thi hoặc xoá sự kiện.
 - Nút **"Đăng ký tham gia"** ở khu lịch ôn thi trang chủ giờ đăng ký thật: buổi học tự vào Lịch của tôi, số chỗ giảm 1.
+- Ở chế độ **Tôi là tutor**, mục này đổi thành **Lịch dạy**: chỉ hiện lớp ôn thi tutor tổ chức (kèm số học viên đã đăng ký) và các buổi **coach 1-1**; không có lịch cá nhân, gợi ý hay nút tạo sự kiện. Dữ liệu coach: `buoiCoachs` trong `mockData.ts`.
 - Dữ liệu mẫu: `buoiDaDangKyMacDinh` và `suKienCaNhanMacDinh` ở cuối `mockData.ts` (sự kiện rơi vào 28/9 – 12/10/2026).
 
 ### Kho tài liệu
