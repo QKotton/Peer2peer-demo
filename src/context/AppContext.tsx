@@ -1,10 +1,14 @@
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
+import type { GiaoDichTutor } from "../lib/vi";
 import {
   buoiDaDangKyMacDinh,
+  buoiOnThis,
+  giaoDichHocVienMacDinh,
   suKienCaNhanMacDinh,
   tutorMons,
   tutors,
   type BaiGiang,
+  type GiaoDichHocVien,
   type SuKienCaNhan,
   type TaiLieu,
   type Tutor,
@@ -53,7 +57,8 @@ type AppState = {
   xoaMinhChung: (khoa: string) => void;
   // --- Lịch của tôi ---
   buoiDaDangKy: string[];
-  dangKyBuoi: (id: string) => void;
+  /** Trả về false nếu số dư ví không đủ */
+  dangKyBuoi: (id: string) => boolean;
   huyDangKyBuoi: (id: string) => void;
   suKien: SuKienCaNhan[];
   themSuKien: (sk: SuKienCaNhan) => void;
@@ -62,6 +67,11 @@ type AppState = {
   taiLieuThem: TaiLieu[];
   themTaiLieu: (tl: TaiLieu) => void;
   xoaTaiLieu: (id: string) => void;
+  // --- Ví ---
+  giaoDichHV: GiaoDichHocVien[];
+  soDuHV: number;
+  rutTienTutor: Record<string, GiaoDichTutor[]>;
+  rutTien: (tutorId: string, soTien: number) => void;
 };
 
 const AppContext = createContext<AppState | null>(null);
@@ -80,8 +90,53 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [minhChung, setMinhChung] = useState<Record<string, MinhChung>>({});
   const [buoiDaDangKy, setBuoiDaDangKy] = useState<string[]>(buoiDaDangKyMacDinh);
   const [suKien, setSuKien] = useState<SuKienCaNhan[]>(suKienCaNhanMacDinh);
-  const dangKyBuoi = (id: string) => setBuoiDaDangKy((ds) => (ds.includes(id) ? ds : [...ds, id]));
-  const huyDangKyBuoi = (id: string) => setBuoiDaDangKy((ds) => ds.filter((x) => x !== id));
+  // --- Ví người học: đăng ký lớp ôn thi trừ tiền ví, huỷ thì hoàn tiền (bản demo) ---
+  const [giaoDichHV, setGiaoDichHV] = useState<GiaoDichHocVien[]>(giaoDichHocVienMacDinh);
+  const soDuHV = giaoDichHV.reduce((s, g) => s + g.soTien, 0);
+  const giaBuoi = (id: string) => {
+    const b = buoiOnThis.find((x) => x.id === id);
+    const tm = b && tutorMons.find((x) => x.tutorId === b.tutorId && x.monId === b.monId);
+    return b && tm ? { b, gia: tm.giaLopChung } : null;
+  };
+  const maGD = () => `GD${Date.now().toString().slice(-8)}`;
+  const bayGio = () => {
+    const d = new Date();
+    const hai = (n: number) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${hai(d.getMonth() + 1)}-${hai(d.getDate())}T${hai(d.getHours())}:${hai(d.getMinutes())}`;
+  };
+  const dangKyBuoi = (id: string) => {
+    if (buoiDaDangKy.includes(id)) return true;
+    const x = giaBuoi(id);
+    if (!x) return false;
+    if (soDuHV < x.gia) return false;
+    setBuoiDaDangKy((ds) => [...ds, id]);
+    setGiaoDichHV((ds) => [
+      ...ds,
+      { id: maGD(), ngay: bayGio(), loai: "lop-on-thi", moTa: `Lớp ôn thi: ${x.b.tieuDe}`, soTien: -x.gia, tutorId: x.b.tutorId, monId: x.b.monId, buoiId: id, phuongThuc: "Ví Peer2Peer" },
+    ]);
+    return true;
+  };
+  const huyDangKyBuoi = (id: string) => {
+    const x = giaBuoi(id);
+    setBuoiDaDangKy((ds) => ds.filter((y) => y !== id));
+    if (x)
+      setGiaoDichHV((ds) => [
+        ...ds,
+        { id: maGD(), ngay: bayGio(), loai: "hoan-tien", moTa: `Hoàn tiền huỷ đăng ký: ${x.b.tieuDe}`, soTien: x.gia, tutorId: x.b.tutorId, monId: x.b.monId, buoiId: id, phuongThuc: "Ví Peer2Peer" },
+      ]);
+  };
+
+  // --- Ví tutor: lệnh rút tiền tạo trong phiên demo (mô phỏng, không chuyển tiền thật) ---
+  const [rutTienTutor, setRutTienTutor] = useState<Record<string, GiaoDichTutor[]>>({});
+  const rutTien = (tutorId: string, soTien: number) => {
+    const id = `rut-${Date.now()}`;
+    const gd: GiaoDichTutor = { id, ngay: new Date(), kieu: "rut", moTa: "Rút tiền về tài khoản ngân hàng", tongTien: soTien, phi: 0, thucNhan: -soTien, trangThai: "dang-xu-ly" };
+    setRutTienTutor((m) => ({ ...m, [tutorId]: [...(m[tutorId] ?? []), gd] }));
+    // mô phỏng, chưa chuyển tiền thật: vài giây sau chuyển sang "Thành công"
+    window.setTimeout(() => {
+      setRutTienTutor((m) => ({ ...m, [tutorId]: (m[tutorId] ?? []).map((g) => (g.id === id ? { ...g, trangThai: "thanh-cong" } : g)) }));
+    }, 3000);
+  };
   const themSuKien = (sk: SuKienCaNhan) => setSuKien((ds) => [...ds, sk]);
   const xoaSuKien = (id: string) => setSuKien((ds) => ds.filter((x) => x.id !== id));
   const [taiLieuThem, setTaiLieuThem] = useState<TaiLieu[]>([]);
@@ -212,6 +267,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         taiLieuThem,
         themTaiLieu,
         xoaTaiLieu,
+        giaoDichHV,
+        soDuHV,
+        rutTienTutor,
+        rutTien,
       }}
     >
       {children}

@@ -41,6 +41,15 @@ Kịch bản gốc trong spec (NEU → Khoa Toán kinh tế → Kinh tế lượ
 - Ở chế độ **Tôi là tutor**, mục này đổi thành **Lịch dạy**: chỉ hiện lớp ôn thi tutor tổ chức (kèm số học viên đã đăng ký) và các buổi **coach 1-1**; không có lịch cá nhân, gợi ý hay nút tạo sự kiện. Dữ liệu coach: `buoiCoachs` trong `mockData.ts`.
 - Dữ liệu mẫu: `buoiDaDangKyMacDinh` và `suKienCaNhanMacDinh` ở cuối `mockData.ts` (sự kiện rơi vào 28/9 – 12/10/2026).
 
+### Ví của tôi
+
+Mục **Ví của tôi** trên thanh bên trái – nội dung đổi theo chế độ. Toàn bộ là số liệu minh hoạ, không có giao dịch thật.
+
+- **Tutor:** số dư khả dụng, tiền chờ đối soát (7 ngày), thực nhận tháng này (so với tháng trước), tổng đã rút; sơ đồ **học viên trả → phí nền tảng 20% → tutor thực nhận 80%**; biểu đồ cột chồng thu nhập 6 tháng theo loại gói (có tooltip và nút **Xem dạng bảng**); phân tích **nguồn tiền theo loại gói** và **theo môn**; lịch sử giao dịch (lọc Thu nhập / Rút tiền); nút **Rút tiền** (mô phỏng, vài giây sau chuyển "Thành công").
+- **Người học:** số dư ví, đã chi tháng này, tổng đã nạp, được hoàn; chi tiêu theo loại; lịch sử giao dịch nhóm theo tháng, lọc Nạp tiền / Thanh toán / Hoàn tiền.
+- **Liên thông:** "Đăng ký tham gia" lớp ôn thi trừ tiền ví người học (báo nếu không đủ số dư) và tạo khoản thu "chờ đối soát" trong ví tutor tương ứng; huỷ đăng ký thì hoàn tiền và khoản thu biến mất.
+- Thu nhập tutor được sinh từ bảng giá và các môn đủ điều kiện của chính tutor đó (tutor không đủ điều kiện môn nào → ví trống). Chỉnh tỷ lệ phí ở `PHI_NEN_TANG`, lịch sử người học ở `giaoDichHocVienMacDinh` trong `mockData.ts`.
+
 ### Kho tài liệu
 
 - Mục **Kho tài liệu** trên thanh bên trái: tóm tắt lý thuyết, đề cương, bài tập có lời giải, đề luyện do tutor tự soạn.

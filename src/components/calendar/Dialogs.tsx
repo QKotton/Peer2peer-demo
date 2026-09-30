@@ -72,8 +72,8 @@ export function EventDialog({ s, onDong }: { s: SuKienLich; onDong: () => void }
               type="button"
               disabled={(s.conCho ?? 0) <= 0}
               onClick={() => {
-                dangKyBuoi(s.buoiId!);
-                toast(`Đã đăng ký: ${s.tieuDe}`);
+                if (dangKyBuoi(s.buoiId!)) toast(`Đã đăng ký và thanh toán từ ví: ${s.tieuDe}`);
+                else toast("Số dư ví không đủ – vào Ví của tôi để nạp thêm");
                 onDong();
               }}
               className="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:bg-slate-300"
@@ -86,7 +86,7 @@ export function EventDialog({ s, onDong }: { s: SuKienLich; onDong: () => void }
               type="button"
               onClick={() => {
                 huyDangKyBuoi(s.buoiId!);
-                toast("Đã huỷ đăng ký");
+                toast("Đã huỷ đăng ký – tiền đã hoàn vào ví");
                 onDong();
               }}
               className="rounded-full px-5 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"

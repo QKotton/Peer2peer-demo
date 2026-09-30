@@ -12,6 +12,7 @@ import MyCalendar from "./pages/MyCalendar";
 import TutorDashboard from "./pages/TutorDashboard";
 import TutorDirectory from "./pages/TutorDirectory";
 import TutorProfile from "./pages/TutorProfile";
+import Wallet from "./pages/Wallet";
 
 export default function App() {
   const { pathname } = useLocation();
@@ -31,6 +32,7 @@ export default function App() {
               <Route path="/mon/:monId" element={<CourseTutors />} />
               <Route path="/lich-cua-toi" element={<MyCalendar />} />
               <Route path="/tai-lieu" element={<DocumentLibrary />} />
+              <Route path="/vi" element={<Wallet />} />
               <Route path="/tutors" element={<TutorDirectory />} />
               <Route path="/tutor/:tutorId" element={<TutorProfile />} />
               <Route path="/tutor-dashboard" element={<TutorDashboard />} />

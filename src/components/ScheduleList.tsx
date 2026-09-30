@@ -81,7 +81,7 @@ export default function ScheduleList() {
                     type="button"
                     onClick={() => {
                       huyDangKyBuoi(buoi.id);
-                      toast("Đã huỷ đăng ký");
+                      toast(`Đã huỷ đăng ký – hoàn ${dinhDangTien(tm.giaLopChung)} vào ví`);
                     }}
                     className="text-xs font-medium text-slate-500 hover:text-red-600 hover:underline"
                   >
@@ -92,8 +92,8 @@ export default function ScheduleList() {
                 <button
                   type="button"
                   onClick={() => {
-                    dangKyBuoi(buoi.id);
-                    toast(`Đã đăng ký – buổi học đã được thêm vào Lịch của tôi`);
+                    if (dangKyBuoi(buoi.id)) toast(`Đã thanh toán ${dinhDangTien(tm.giaLopChung)} từ ví – buổi học đã vào Lịch của tôi`);
+                    else toast("Số dư ví không đủ – vào Ví của tôi để nạp thêm");
                   }}
                   disabled={het}
                   className="whitespace-nowrap rounded-xl bg-blue-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-500"

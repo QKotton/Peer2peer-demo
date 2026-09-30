@@ -698,3 +698,35 @@ export const buoiCoachs: BuoiCoach[] = [
   // Cố ý: t12 điểm B+ môn Quản trị vận hành 2 → buổi này KHÔNG hiện
   { id: "c11", tutorId: "t12", monId: "neu-qtvh", hocVien: "Học viên SV năm 3 – NEU", batDau: "2026-10-05T20:00", thoiLuongPhut: 90, hinhThuc: "Online – Zoom" },
 ];
+
+// ---------- Ví (bản demo – số liệu minh hoạ, không có giao dịch thật) ----------
+
+/** Phí nền tảng giữ lại trên mỗi giao dịch; tutor nhận phần còn lại. */
+export const PHI_NEN_TANG = 0.2;
+/** Số ngày tiền nằm ở trạng thái "chờ đối soát" trước khi vào số dư khả dụng. */
+export const SO_NGAY_DOI_SOAT = 7;
+
+export type GiaoDichHocVien = {
+  id: string;
+  ngay: string; // "YYYY-MM-DDTHH:mm"
+  loai: "nap" | "bai-giang" | "coach" | "lop-on-thi" | "hoan-tien";
+  moTa: string;
+  soTien: number; // + tiền vào ví, − tiền ra
+  tutorId?: string;
+  monId?: string;
+  buoiId?: string; // giao dịch lớp ôn thi gắn với buổi trong buoiOnThis
+  phuongThuc: string;
+};
+
+/** Lịch sử giao dịch mẫu của người học (khớp với 2 buổi đã đăng ký sẵn b1, b2). */
+export const giaoDichHocVienMacDinh: GiaoDichHocVien[] = [
+  { id: "GD260812", ngay: "2026-08-12T09:15", loai: "nap", moTa: "Nạp tiền vào ví", soTien: 500000, phuongThuc: "Chuyển khoản ngân hàng" },
+  { id: "GD260814", ngay: "2026-08-14T21:40", loai: "bai-giang", moTa: "Gói bài giảng quay sẵn – Kinh tế vi mô", soTien: -180000, tutorId: "t1", monId: "ueb-vimo", phuongThuc: "Ví Peer2Peer" },
+  { id: "GD260826", ngay: "2026-08-26T10:05", loai: "hoan-tien", moTa: "Hoàn tiền buổi học bị tutor huỷ", soTien: 80000, tutorId: "t1", monId: "ueb-tcc", phuongThuc: "Ví Peer2Peer" },
+  { id: "GD260901", ngay: "2026-09-01T08:30", loai: "nap", moTa: "Nạp tiền vào ví", soTien: 1000000, phuongThuc: "Chuyển khoản ngân hàng" },
+  { id: "GD260903", ngay: "2026-09-03T20:12", loai: "bai-giang", moTa: "Gói bài giảng quay sẵn – Kinh tế lượng", soTien: -220000, tutorId: "t2", monId: "ueb-ktl", phuongThuc: "Ví Peer2Peer" },
+  { id: "GD260905", ngay: "2026-09-05T19:02", loai: "coach", moTa: "Gói coach – Toán cao cấp", soTien: -500000, tutorId: "t3", monId: "ueb-tcc", phuongThuc: "Ví Peer2Peer" },
+  { id: "GD260915", ngay: "2026-09-15T12:48", loai: "nap", moTa: "Nạp tiền vào ví", soTien: 300000, phuongThuc: "Ví điện tử" },
+  { id: "GD260918", ngay: "2026-09-18T22:10", loai: "lop-on-thi", moTa: "Lớp ôn thi: Ôn thi giữa kỳ Kinh tế lượng", soTien: -90000, tutorId: "t2", monId: "ueb-ktl", buoiId: "b1", phuongThuc: "Ví Peer2Peer" },
+  { id: "GD260920", ngay: "2026-09-20T07:55", loai: "lop-on-thi", moTa: "Lớp ôn thi: Chữa đề cuối kỳ Toán cao cấp", soTien: -100000, tutorId: "t3", monId: "ueb-tcc", buoiId: "b2", phuongThuc: "Ví Peer2Peer" },
+];

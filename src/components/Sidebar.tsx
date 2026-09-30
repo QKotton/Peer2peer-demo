@@ -28,6 +28,10 @@ export default function Sidebar() {
         <Icon ten="calendar" />
         {cheDo === "tutor" ? "Lịch dạy" : "Lịch của tôi"}
       </Link>
+      <Link to="/vi" onClick={dong} className={itemCls(pathname === "/vi")}>
+        <Icon ten="wallet" />
+        Ví của tôi
+      </Link>
       <Link to="/tutors" onClick={dong} className={itemCls(pathname === "/tutors")}>
         <Icon ten="users" />
         Tutor
