@@ -702,7 +702,7 @@ export const buoiCoachs: BuoiCoach[] = [
 // ---------- Ví (bản demo – số liệu minh hoạ, không có giao dịch thật) ----------
 
 /** Phí nền tảng giữ lại trên mỗi giao dịch; tutor nhận phần còn lại. */
-export const PHI_NEN_TANG = 0.2;
+export const PHI_NEN_TANG = 0.1;
 /** Số ngày tiền nằm ở trạng thái "chờ đối soát" trước khi vào số dư khả dụng. */
 export const SO_NGAY_DOI_SOAT = 7;
 

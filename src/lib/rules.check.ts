@@ -1,5 +1,5 @@
 
-import { monHocs, tutorMons, tutors } from "../data/mockData";
+import { monHocs, PHI_NEN_TANG, tutorMons, tutors } from "../data/mockData";
 import { giaoDichTutor, tongHopVi } from "./vi";
 import { buoiOnThiSapToi, duDieuKienDay, taiLieuHienThi, monNhanDay, tutorsDayMon, videoTrangChu } from "./rules";
 
@@ -40,7 +40,7 @@ kiemTra(!taiLieuHienThi([]).some((x) => x.tutor.gpa < 3.6), "Kho tài liệu kh�
 const homNay = new Date(2026, 8, 30);
 kiemTra(giaoDichTutor("t4", homNay, [], []).length === 0, "Ví: tutor GPA 3.5 không phát sinh thu nhập");
 const thT2 = tongHopVi(giaoDichTutor("t2", homNay, [], []), homNay);
-kiemTra(thT2.tongPhi + thT2.tongThucNhan === thT2.tongDoanhThu && Math.abs(thT2.tongPhi / thT2.tongDoanhThu - 0.2) < 0.01, "Ví: phí nền tảng 20%, tutor nhận 80%");
+kiemTra(thT2.tongPhi + thT2.tongThucNhan === thT2.tongDoanhThu && Math.abs(thT2.tongPhi / thT2.tongDoanhThu - PHI_NEN_TANG) < 0.01, `Ví: phí nền tảng ${PHI_NEN_TANG * 100}%, tutor nhận ${(1 - PHI_NEN_TANG) * 100}%`);
 kiemTra(thT2.khaDung >= 0, "Ví: số dư khả dụng không âm sau các lần rút định kỳ");
 
 if (loi > 0) throw new Error(`${loi} kiểm tra thất bại`);
