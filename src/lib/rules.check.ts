@@ -1,6 +1,7 @@
 
 import { monHocs, PHI_NEN_TANG, tutorMons, tutors } from "../data/mockData";
 import { giaoDichTutor, tongHopVi } from "./vi";
+import { timKenh, vaiTro } from "./forum";
 import { buoiOnThiSapToi, duDieuKienDay, taiLieuHienThi, monNhanDay, tutorsDayMon, videoTrangChu } from "./rules";
 
 let loi = 0;
@@ -42,6 +43,10 @@ kiemTra(giaoDichTutor("t4", homNay, [], []).length === 0, "Ví: tutor GPA 3.5 kh
 const thT2 = tongHopVi(giaoDichTutor("t2", homNay, [], []), homNay);
 kiemTra(thT2.tongPhi + thT2.tongThucNhan === thT2.tongDoanhThu && Math.abs(thT2.tongPhi / thT2.tongDoanhThu - PHI_NEN_TANG) < 0.01, `Ví: phí nền tảng ${PHI_NEN_TANG * 100}%, tutor nhận ${(1 - PHI_NEN_TANG) * 100}%`);
 kiemTra(thT2.khaDung >= 0, "Ví: số dư khả dụng không âm sau các lần rút định kỳ");
+kiemTra(vaiTro({ loai: "tutor", tutorId: "t2" }, timKenh("mon-ueb-ktl")) === "tutor-mon", "Diễn đàn: tutor A+ Kinh tế lượng là \"Tutor môn này\" ở kênh đó");
+kiemTra(vaiTro({ loai: "tutor", tutorId: "t5" }, timKenh("mon-ueb-ktl")) === "tutor", "Diễn đàn: tutor môn khác chỉ là \"Tutor\"");
+kiemTra(vaiTro({ loai: "tutor", tutorId: "t12" }, timKenh("mon-neu-qtvh")) === "tutor", "Diễn đàn: điểm B+ môn của kênh → không phải \"Tutor môn này\"");
+kiemTra(vaiTro({ loai: "tutor", tutorId: "t4" }, timKenh("mon-ueb-tcc")) === "thanh-vien", "Diễn đàn: tutor GPA 3.5 chỉ là thành viên");
 
 if (loi > 0) throw new Error(`${loi} kiểm tra thất bại`);
 console.log("\nTất cả kiểm tra đều đạt.");

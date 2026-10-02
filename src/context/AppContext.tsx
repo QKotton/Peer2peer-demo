@@ -11,6 +11,7 @@ import {
   type GiaoDichHocVien,
   type SuKienCaNhan,
   type TaiLieu,
+  type TinNhan,
   type Tutor,
   type TutorMon,
 } from "../data/mockData";
@@ -72,6 +73,11 @@ type AppState = {
   soDuHV: number;
   rutTienTutor: Record<string, GiaoDichTutor[]>;
   rutTien: (tutorId: string, soTien: number) => void;
+  // --- Diễn đàn ---
+  tinNhanThem: TinNhan[];
+  guiTinNhan: (kenhId: string, noiDung: string) => void;
+  camXucCuaToi: Record<string, string[]>; // id tin nhắn → các emoji mình đã thả
+  thaCamXuc: (tinId: string, emoji: string) => void;
 };
 
 const AppContext = createContext<AppState | null>(null);
@@ -125,6 +131,26 @@ export function AppProvider({ children }: { children: ReactNode }) {
         { id: maGD(), ngay: bayGio(), loai: "hoan-tien", moTa: `Hoàn tiền huỷ đăng ký: ${x.b.tieuDe}`, soTien: x.gia, tutorId: x.b.tutorId, monId: x.b.monId, buoiId: id, phuongThuc: "Ví Peer2Peer" },
       ]);
   };
+
+  // --- Diễn đàn: tin nhắn gửi trong phiên demo (người học gửi tên "Bạn", tutor gửi tên tutor đang đóng vai) ---
+  const [tinNhanThem, setTinNhanThem] = useState<TinNhan[]>([]);
+  const guiTinNhan = (kenhId: string, noiDung: string) =>
+    setTinNhanThem((ds) => [
+      ...ds,
+      {
+        id: `tn-${Date.now()}`,
+        kenhId,
+        noiDung,
+        thoiGian: bayGio(),
+        tacGia: cheDo === "tutor" ? { loai: "tutor", tutorId: tutorDongVaiId } : { loai: "hoc-vien", ten: "Bạn", moTa: "Người học" },
+      },
+    ]);
+  const [camXucCuaToi, setCamXucCuaToi] = useState<Record<string, string[]>>({});
+  const thaCamXuc = (tinId: string, emoji: string) =>
+    setCamXucCuaToi((m) => {
+      const ds = m[tinId] ?? [];
+      return { ...m, [tinId]: ds.includes(emoji) ? ds.filter((e) => e !== emoji) : [...ds, emoji] };
+    });
 
   // --- Ví tutor: lệnh rút tiền tạo trong phiên demo (mô phỏng, không chuyển tiền thật) ---
   const [rutTienTutor, setRutTienTutor] = useState<Record<string, GiaoDichTutor[]>>({});
@@ -271,6 +297,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         soDuHV,
         rutTienTutor,
         rutTien,
+        tinNhanThem,
+        guiTinNhan,
+        camXucCuaToi,
+        thaCamXuc,
       }}
     >
       {children}

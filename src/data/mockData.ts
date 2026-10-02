@@ -730,3 +730,70 @@ export const giaoDichHocVienMacDinh: GiaoDichHocVien[] = [
   { id: "GD260918", ngay: "2026-09-18T22:10", loai: "lop-on-thi", moTa: "Lớp ôn thi: Ôn thi giữa kỳ Kinh tế lượng", soTien: -90000, tutorId: "t2", monId: "ueb-ktl", buoiId: "b1", phuongThuc: "Ví Peer2Peer" },
   { id: "GD260920", ngay: "2026-09-20T07:55", loai: "lop-on-thi", moTa: "Lớp ôn thi: Chữa đề cuối kỳ Toán cao cấp", soTien: -100000, tutorId: "t3", monId: "ueb-tcc", buoiId: "b2", phuongThuc: "Ví Peer2Peer" },
 ];
+
+// ---------- Diễn đàn (kiểu Discord): mỗi trường một "server", mỗi môn một kênh ----------
+// Tên người học là tên hiển thị hư cấu. Vai trò (màu tên) KHÔNG lưu ở đây mà tính theo
+// duDieuKienDay cho từng kênh – xem src/lib/forum.ts.
+
+export type TacGia = { loai: "tutor"; tutorId: string } | { loai: "hoc-vien"; ten: string; moTa: string } | { loai: "quan-tri" };
+
+export type TinNhan = {
+  id: string;
+  kenhId: string; // "mon-<monId>" | "<truongId>-chung" | "<truongId>-tim-nhom"
+  tacGia: TacGia;
+  noiDung: string;
+  thoiGian: string; // "YYYY-MM-DDTHH:mm"
+  camXuc?: Record<string, number>; // emoji → số lượt
+  ghim?: boolean;
+};
+
+const hv = (ten: string, moTa: string): TacGia => ({ loai: "hoc-vien", ten, moTa });
+const tt = (tutorId: string): TacGia => ({ loai: "tutor", tutorId });
+
+export const tinNhanMacDinh: TinNhan[] = [
+  // ----- UEB · chung -----
+  { id: "m1", kenhId: "ueb-chung", tacGia: { loai: "quan-tri" }, thoiGian: "2026-09-20T08:00", ghim: true, noiDung: "Chào mừng các bạn đến server UEB của Peer2Peer! Mỗi môn có một kênh riêng. Tên màu vàng kèm ✓ là tutor đã xác thực đạt A/A+ đúng môn của kênh đó. Vui lòng không đăng đề thi, slide hay giáo trình của giảng viên." , camXuc: { "👋": 42, "❤️": 18 } },
+  { id: "m2", kenhId: "ueb-chung", tacGia: hv("Hà Vy", "K69 · Kinh tế Phát triển"), thoiGian: "2026-09-30T21:05", noiDung: "Mọi người cho em hỏi học kỳ này nên đăng ký Kinh tế lượng trước hay Xác suất thống kê trước ạ?" },
+  { id: "m3", kenhId: "ueb-chung", tacGia: tt("t3"), thoiGian: "2026-09-30T21:18", noiDung: "Kinh tế lượng cần nền xác suất thống kê và vĩ mô (học phần tiên quyết INE1051, BSA1053) nên em học XSTK trước nhé.", camXuc: { "👍": 9 } },
+  { id: "m4", kenhId: "ueb-chung", tacGia: hv("Quang Minh", "K68 · Tài chính – Ngân hàng"), thoiGian: "2026-10-01T10:40", noiDung: "Thư viện tầng 3 chiều nay còn phòng học nhóm không mọi người?" },
+
+  // ----- UEB · tìm nhóm học -----
+  { id: "m5", kenhId: "ueb-tim-nhom", tacGia: hv("Bảo Châu", "K69 · Kinh tế Phát triển"), thoiGian: "2026-09-29T19:00", noiDung: "Tìm 2 bạn ôn Toán cao cấp tối thứ 3, 5 hằng tuần, học online qua Meet. Ai tham gia thả 🙋 nhé!", camXuc: { "🙋": 5 } },
+  { id: "m6", kenhId: "ueb-tim-nhom", tacGia: hv("Đức Anh", "K69 · Kinh tế Phát triển"), thoiGian: "2026-09-29T19:12", noiDung: "Cho mình 1 slot với nha" },
+
+  // ----- UEB · Kinh tế lượng -----
+  { id: "m7", kenhId: "mon-ueb-ktl", tacGia: tt("t2"), thoiGian: "2026-09-25T09:00", ghim: true, noiDung: "📌 Tổng hợp trọng tâm giữa kỳ: (1) giả thiết OLS, (2) kiểm định t và F, (3) đọc bảng kết quả Eviews, (4) biến giả. Tóm tắt 12 trang mình để trong Kho tài liệu.", camXuc: { "🔥": 31, "❤️": 12 } },
+  { id: "m8", kenhId: "mon-ueb-ktl", tacGia: hv("Linh Đan", "K68 · Kinh tế Phát triển"), thoiGian: "2026-10-01T20:02", noiDung: "Mọi người ơi R² hiệu chỉnh khác R² thường ở chỗ nào, sao bài nào thầy cũng bắt so sánh vậy ạ 😭" },
+  { id: "m9", kenhId: "mon-ueb-ktl", tacGia: tt("t1"), thoiGian: "2026-10-01T20:09", noiDung: "R² luôn tăng khi thêm biến, kể cả biến vô nghĩa. R² hiệu chỉnh trừ phạt theo số biến nên chỉ tăng khi biến mới thật sự giải thích thêm. So sánh 2 mô hình khác số biến thì dùng R² hiệu chỉnh nhé.", camXuc: { "👍": 14, "🙏": 6 } },
+  { id: "m10", kenhId: "mon-ueb-ktl", tacGia: hv("Linh Đan", "K68 · Kinh tế Phát triển"), thoiGian: "2026-10-01T20:11", noiDung: "Hiểu rồi ạ, cảm ơn chị nhiều!!" },
+  { id: "m11", kenhId: "mon-ueb-ktl", tacGia: hv("Tuấn Kiệt", "K68 · Kinh tế Phát triển"), thoiGian: "2026-10-02T08:30", noiDung: "Có ai dùng Stata chạy kiểm định White chưa, mình bị lỗi \"not sorted\"" },
+  { id: "m12", kenhId: "mon-ueb-ktl", tacGia: tt("t2"), thoiGian: "2026-10-02T08:41", noiDung: "Lỗi đó thường do khai báo dữ liệu chuỗi thời gian. Bạn chạy tsset trước, hoặc dùng estat imtest, white sau regress. Nếu vẫn lỗi gửi mình đoạn code nhé.", camXuc: { "👍": 7 } },
+  { id: "m13", kenhId: "mon-ueb-ktl", tacGia: tt("t5"), thoiGian: "2026-10-02T08:45", noiDung: "Bổ sung: mình hay dùng thêm robust standard errors khi có phương sai thay đổi, đỡ phải xử lý nhiều." },
+
+  // ----- UEB · Toán cao cấp -----
+  { id: "m14", kenhId: "mon-ueb-tcc", tacGia: hv("Mai Phương", "K70 · Kinh tế Phát triển"), thoiGian: "2026-09-30T22:15", noiDung: "Tính định thức ma trận 4x4 có cách nào nhanh không mọi người, khai triển Laplace lâu quá" },
+  { id: "m15", kenhId: "mon-ueb-tcc", tacGia: tt("t3"), thoiGian: "2026-09-30T22:24", noiDung: "Biến đổi sơ cấp đưa về ma trận tam giác rồi nhân đường chéo là nhanh nhất. Nhớ: đổi chỗ 2 dòng thì đổi dấu định thức.", camXuc: { "🙏": 11 } },
+  { id: "m16", kenhId: "mon-ueb-tcc", tacGia: hv("Phạm Quang Huy", "K68 · Kinh tế du lịch"), thoiGian: "2026-09-30T22:30", noiDung: "Thêm mẹo: dòng nào có nhiều số 0 thì khai triển theo dòng đó." },
+
+  // ----- NEU · chung -----
+  { id: "m17", kenhId: "neu-chung", tacGia: { loai: "quan-tri" }, thoiGian: "2026-09-20T08:00", ghim: true, noiDung: "Chào mừng đến server NEU của Peer2Peer! Tên màu vàng kèm ✓ là tutor đã xác thực đúng môn của kênh. Giữ kênh văn minh, không chia sẻ đề thi của giảng viên.", camXuc: { "👋": 35 } },
+  { id: "m18", kenhId: "neu-chung", tacGia: hv("Thanh Tâm", "K66 · Quản trị kinh doanh"), thoiGian: "2026-10-01T15:20", noiDung: "Ai có kinh nghiệm đăng ký học phần chuyên sâu QTKD cho mình xin ít review với" },
+
+  // ----- NEU · Kinh tế lượng -----
+  { id: "m19", kenhId: "mon-neu-ktl", tacGia: hv("Gia Huy", "K66 · Toán kinh tế"), thoiGian: "2026-10-01T19:40", noiDung: "Đa cộng tuyến thì bỏ biến luôn có được không ạ?" },
+  { id: "m20", kenhId: "mon-neu-ktl", tacGia: tt("t6"), thoiGian: "2026-10-01T19:52", noiDung: "Không nên bỏ máy móc. Kiểm tra VIF trước; nếu biến đó quan trọng về lý thuyết thì giữ lại và chấp nhận sai số chuẩn lớn, hoặc tăng cỡ mẫu / gộp biến.", camXuc: { "👍": 10 } },
+  { id: "m21", kenhId: "mon-neu-ktl", tacGia: tt("t8"), thoiGian: "2026-10-01T20:05", noiDung: "Mình hay dùng ma trận tương quan để nhìn nhanh trước khi tính VIF." },
+
+  // ----- NEU · Khởi sự kinh doanh -----
+  { id: "m22", kenhId: "mon-neu-kskd", tacGia: tt("t13"), thoiGian: "2026-09-28T20:00", ghim: true, noiDung: "📌 Template kế hoạch khởi sự kinh doanh 10 mục mình đã up lên Kho tài liệu. Nhóm nào cần góp ý bản nháp cứ tag mình.", camXuc: { "🔥": 16 } },
+  { id: "m23", kenhId: "mon-neu-kskd", tacGia: hv("Ngọc Hân", "K66 · Quản trị doanh nghiệp"), thoiGian: "2026-10-01T21:00", noiDung: "Phần phân tích đối thủ cạnh tranh nên làm bảng hay viết đoạn văn ạ?" },
+  { id: "m24", kenhId: "mon-neu-kskd", tacGia: tt("t11"), thoiGian: "2026-10-01T21:10", noiDung: "Làm bảng so sánh 4–5 tiêu chí rồi viết 1 đoạn kết luận lợi thế của nhóm mình. Giám khảo đọc bảng nhanh hơn." },
+
+  // ----- NEU · Quản trị vận hành 2 (t12 điểm B+ → không có vai trò "Tutor môn này") -----
+  { id: "m25", kenhId: "mon-neu-qtvh", tacGia: hv("Minh Khoa", "K66 · Quản trị kinh doanh"), thoiGian: "2026-10-01T18:00", noiDung: "Bài toán EOQ có chi phí thiếu hàng thì công thức thay đổi thế nào ạ?" },
+  { id: "m26", kenhId: "mon-neu-qtvh", tacGia: tt("t13"), thoiGian: "2026-10-01T18:12", noiDung: "Dùng mô hình EOQ có thiếu hàng: Q* nhân thêm căn của (H + B)/B, với B là chi phí thiếu hàng trên đơn vị. Mình có ví dụ trong bài giảng chương 2.", camXuc: { "🙏": 4 } },
+  { id: "m27", kenhId: "mon-neu-qtvh", tacGia: tt("t12"), thoiGian: "2026-10-01T18:20", noiDung: "Đúng rồi, nhớ kiểm tra lại đơn vị thời gian của H và B cho khớp nhau." },
+];
+
+/** Số thành viên minh hoạ của mỗi server (hiển thị ở danh sách thành viên). */
+export const SO_THANH_VIEN: Record<string, number> = { ueb: 1248, neu: 2031 };

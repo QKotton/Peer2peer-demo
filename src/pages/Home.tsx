@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import Forum from "../components/forum/Forum";
 import { Icon } from "../components/icons";
 import ScheduleList from "../components/ScheduleList";
 import VideoCard from "../components/VideoCard";
@@ -17,7 +18,44 @@ const diemKhacBiet = [
   { icon: "★", tieuDe: "Đánh giá theo từng môn", moTa: "Điểm sao tính riêng từng môn, không gộp chung." },
 ];
 
+type TabTrangChu = "lop-hoc" | "dien-dan";
+
+/** Trang chủ chia 2 tab: Lớp học (video + lịch ôn thi) và Diễn đàn (chat theo trường / môn). */
 export default function Home() {
+  const [params, setParams] = useSearchParams();
+  const tab: TabTrangChu = params.get("tab") === "dien-dan" ? "dien-dan" : "lop-hoc";
+  const chonTab = (t: TabTrangChu) => setParams(t === "lop-hoc" ? {} : { tab: t }, { replace: true });
+
+  return (
+    <div className="space-y-5">
+      <div role="tablist" aria-label="Trang chủ" className="flex gap-1 border-b border-slate-200">
+        {(
+          [
+            ["lop-hoc", "Lớp học", "video"],
+            ["dien-dan", "Diễn đàn", "users"],
+          ] as const
+        ).map(([id, nhan, icon]) => (
+          <button
+            key={id}
+            type="button"
+            role="tab"
+            aria-selected={tab === id}
+            onClick={() => chonTab(id)}
+            className={`-mb-px inline-flex items-center gap-2 border-b-2 px-4 py-2.5 text-sm font-semibold transition ${
+              tab === id ? "border-blue-700 text-blue-700" : "border-transparent text-slate-500 hover:text-slate-900"
+            }`}
+          >
+            <Icon ten={icon} className="h-4 w-4" />
+            {nhan}
+          </button>
+        ))}
+      </div>
+      {tab === "dien-dan" ? <Forum /> : <LopHoc />}
+    </div>
+  );
+}
+
+function LopHoc() {
   const { baiGiangThem, moBoLoc } = useApp();
   const navigate = useNavigate();
   const [monChon, setMonChon] = useState("Tất cả");
