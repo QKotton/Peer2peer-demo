@@ -163,7 +163,4 @@ export function nguonTien(ds: GiaoDichTutor[]) {
   return { theoLoai, theoMon };
 }
 
-const nf = new Intl.NumberFormat("vi-VN");
-export const tien = (n: number) => `${nf.format(n)}đ`;
-/** Rút gọn cho trục biểu đồ: 1,2tr · 850k */
-export const tienGon = (n: number) => (n >= 1_000_000 ? `${(n / 1_000_000).toLocaleString("vi-VN", { maximumFractionDigits: 1 })}tr` : `${Math.round(n / 1000)}k`);
+export { dinhDangTien as tien, tienGon } from "./dinhDang";

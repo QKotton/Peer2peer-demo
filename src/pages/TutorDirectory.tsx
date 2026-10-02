@@ -3,14 +3,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import { Avatar, HuyHieuXacThuc, Sao } from "../components/ui";
 import { khoaMinhChung, useApp } from "../context/AppContext";
 import { monHocs, tutors } from "../data/mockData";
+import { boDau } from "../lib/dinhDang";
 import { layKhoa, layTruong, monNhanDay, saoTrungBinh, truongCuaMon } from "../lib/rules";
-
-const boDau = (s: string) =>
-  s
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/đ/g, "d")
-    .toLowerCase();
 
 /** Danh bạ tutor: profile chung + lọc theo môn học. */
 export default function TutorDirectory() {

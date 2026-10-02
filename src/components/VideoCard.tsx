@@ -1,25 +1,8 @@
 import { Link } from "react-router-dom";
 import type { BaiGiang, MonHoc, Tutor } from "../data/mockData";
+import { nenAnhBia } from "../lib/mauMon";
 import { layTruong } from "../lib/rules";
 import { Avatar } from "./ui";
-
-// Mỗi môn một dải màu cho thumbnail (không dùng ảnh thật)
-const MAU: Record<string, string> = {
-  "Kinh tế lượng": "from-blue-700 to-indigo-500",
-  "Toán cao cấp": "from-emerald-600 to-teal-400",
-  "Tài chính doanh nghiệp": "from-amber-600 to-orange-400",
-  "Nguyên lý kế toán": "from-rose-600 to-pink-400",
-  "Kế toán tài chính": "from-fuchsia-700 to-purple-400",
-  "Kinh tế vi mô": "from-cyan-700 to-sky-400",
-  "Lý thuyết xác suất và thống kê": "from-violet-700 to-indigo-400",
-  "Thống kê kinh tế": "from-lime-700 to-green-400",
-  "Quản trị chất lượng": "from-sky-700 to-cyan-400",
-  "Quản trị chiến lược 2": "from-red-700 to-rose-400",
-  "Quản trị vận hành 2": "from-teal-700 to-emerald-400",
-  "Khởi sự kinh doanh": "from-orange-600 to-amber-400",
-  "Quản trị chuỗi cung ứng": "from-indigo-700 to-blue-400",
-  "Quản trị chi phí kinh doanh": "from-purple-700 to-fuchsia-400",
-};
 
 type Props = { bg: BaiGiang; tutor: Tutor; mon: MonHoc; moi: boolean; onXem: () => void };
 
@@ -27,7 +10,8 @@ export default function VideoCard({ bg, tutor, mon, moi, onXem }: Props) {
   return (
     <article className="group">
       <button type="button" onClick={onXem} className="block w-full text-left" aria-label={`Xem ${bg.tieuDe}`}>
-        <div className={`relative aspect-video overflow-hidden rounded-xl bg-gradient-to-br ${MAU[mon.ten] ?? "from-slate-700 to-slate-500"}`}>
+        {/* Ảnh bìa vẽ bằng màu của môn (không dùng ảnh thật) */}
+        <div className="relative aspect-video overflow-hidden rounded-xl" style={{ background: nenAnhBia(mon.ten) }}>
           <div className="absolute inset-0 flex flex-col justify-between p-3 text-white sm:p-4">
             <span className="w-fit rounded-md bg-black/25 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide">
               {layTruong(tutor.truongId)?.tenVietTat} · {mon.maHocPhan}

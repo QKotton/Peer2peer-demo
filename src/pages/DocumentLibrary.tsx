@@ -4,14 +4,8 @@ import DocCard from "../components/docs/DocCard";
 import DocViewer from "../components/docs/DocViewer";
 import { useApp } from "../context/AppContext";
 import { khoas, LOAI_TAI_LIEU, monHocs, truongs } from "../data/mockData";
+import { boDau } from "../lib/dinhDang";
 import { taiLieuHienThi } from "../lib/rules";
-
-const boDau = (s: string) =>
-  s
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/đ/g, "d")
-    .toLowerCase();
 
 const selectCls =
   "w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-100 disabled:text-slate-400";

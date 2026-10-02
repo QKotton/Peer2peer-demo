@@ -45,13 +45,6 @@ export function monNhanDay(tutorId: string): { mon: MonHoc; tm: TutorMon }[] {
     .map(({ tm }) => ({ mon: layMon(tm.monId)!, tm }));
 }
 
-
-export function tutorsCoTheDay(): Tutor[] {
-  return tutors.filter((t) => monNhanDay(t.id).length > 0);
-}
-
-
-
 export function danhGiaCuaMon(tutorId: string, monId: string) {
   return danhGias.filter((d) => d.tutorId === tutorId && d.monId === monId);
 }
@@ -66,8 +59,7 @@ export function giaThapNhat(tm: TutorMon): number {
   return Math.min(tm.giaBaiGiang, tm.giaCoach, tm.giaLopChung);
 }
 
-const nf = new Intl.NumberFormat("vi-VN");
-export const dinhDangTien = (n: number) => `${nf.format(n)}đ`;
+export { dinhDangTien } from "./dinhDang";
 
 // ---------- Tra cứu ----------
 

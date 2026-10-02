@@ -1,91 +1,29 @@
+// Tab Diễn đàn (kiểu Discord). Cột kênh: ChannelList · cột thành viên: MemberList · mảnh nhỏ: parts.tsx
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useApp } from "../../context/AppContext";
-import { SO_THANH_VIEN, tinNhanMacDinh, truongs, type TacGia, type TinNhan, type Tutor } from "../../data/mockData";
-import { cacKenh, dangOnline, khoaTacGia, mauMon, tenTacGia, timKenh, tutorTrongKenh, VAI_TRO, vaiTro, type Kenh, type VaiTro } from "../../lib/forum";
-import { layMon, layTruong, layTutor, monNhanDay } from "../../lib/rules";
+import { tinNhanMacDinh, type TacGia, type TinNhan } from "../../data/mockData";
+import { khoaTacGia, tenTacGia, timKenh, VAI_TRO, vaiTro } from "../../lib/forum";
+import { congNgay, cungNgay } from "../../lib/lich";
+import { layMon, layTruong } from "../../lib/rules";
 import { Icon } from "../icons";
+import ChannelList from "./ChannelList";
+import MemberList from "./MemberList";
+import { AvatarVaiTro, DauKenh, HuyHieu, TheNguoiDung } from "./parts";
 
 const CAM_XUC_NHANH = ["👍", "❤️", "🔥", "🙏", "😂"];
 const KENH_MAC_DINH = "mon-ueb-ktl";
 
-// ---------- Tiện ích thời gian ----------
+// ---------- Tiện ích thời gian (thoiGian dạng "YYYY-MM-DDTHH:mm") ----------
 const ngay = (iso: string) => iso.slice(0, 10);
-function nhanNgay(iso: string) {
-  const d = new Date(iso);
-  const hom = new Date();
-  const hai = (n: number) => String(n).padStart(2, "0");
-  const key = (x: Date) => `${x.getFullYear()}-${hai(x.getMonth() + 1)}-${hai(x.getDate())}`;
-  if (key(d) === key(hom)) return "Hôm nay";
-  if (key(d) === key(new Date(hom.getFullYear(), hom.getMonth(), hom.getDate() - 1))) return "Hôm qua";
-  return `${hai(d.getDate())}/${hai(d.getMonth() + 1)}/${d.getFullYear()}`;
-}
 const gio = (iso: string) => iso.slice(11, 16);
 const cachPhut = (a: string, b: string) => Math.abs(new Date(a).getTime() - new Date(b).getTime()) / 60000;
-
-/** Biểu tượng kênh: kênh chung dùng icon, kênh môn dùng ô vuông màu trơn. */
-function DauKenh({ k, lon = false }: { k: Kenh; lon?: boolean }) {
-  if (k.loai === "chung") return <Icon ten="megaphone" className={`${lon ? "h-5 w-5" : "h-4 w-4"} shrink-0 text-slate-500`} />;
-  if (k.loai === "tim-nhom") return <Icon ten="users" className={`${lon ? "h-5 w-5" : "h-4 w-4"} shrink-0 text-slate-500`} />;
-  return <span className={`${lon ? "h-3.5 w-3.5" : "h-3 w-3"} mx-0.5 shrink-0 rounded-[3px]`} style={{ background: mauMon(k.ten) }} aria-hidden />;
-}
-
-function Avatar({ tg, vt, nho = false }: { tg: TacGia; vt: VaiTro; nho?: boolean }) {
-  return (
-    <span className={`grid shrink-0 place-items-center rounded-full font-semibold ${nho ? "h-8 w-8 text-[11px]" : "h-10 w-10 text-xs"} ${VAI_TRO[vt].nenAvatar}`} aria-hidden>
-      {tenTacGia(tg).chu}
-    </span>
-  );
-}
-
-function HuyHieu({ vt }: { vt: VaiTro }) {
-  const v = VAI_TRO[vt];
-  if (!v.huyHieu) return null;
-  return <span className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${v.nenHuyHieu}`}>{v.huyHieu}</span>;
-}
-
-/** Thẻ hồ sơ nhỏ khi bấm vào tên. */
-function TheNguoiDung({ tg, vt, kenh, onDong }: { tg: TacGia; vt: VaiTro; kenh?: Kenh; onDong: () => void }) {
-  const t = tenTacGia(tg);
-  const tutor: Tutor | undefined = tg.loai === "tutor" ? layTutor(tg.tutorId) : undefined;
-  const cacMon = tutor ? monNhanDay(tutor.id) : [];
-  return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-slate-900/30 p-4" onClick={onDong}>
-      <div role="dialog" aria-modal="true" className="w-full max-w-xs overflow-hidden rounded-2xl bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="h-14" style={{ background: kenh?.loai === "mon" ? mauMon(kenh.ten) : "#1d4ed8" }} />
-        <div className="-mt-7 px-5 pb-5">
-          <div className="w-fit rounded-full ring-4 ring-white">
-            <Avatar tg={tg} vt={vt} />
-          </div>
-          <p className={`mt-2 text-lg font-bold ${VAI_TRO[vt].mauChu}`}>{t.ten}</p>
-          <p className="text-sm text-slate-500">{t.phu}</p>
-          <div className="mt-2">
-            <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${VAI_TRO[vt].nenHuyHieu ?? "bg-slate-100 text-slate-600"}`}>{VAI_TRO[vt].ten}</span>
-          </div>
-          {tutor && (
-            <>
-              <p className="mt-3 text-sm text-slate-700">
-                GPA <b>{tutor.gpa.toFixed(2)}</b> · {tutor.daXacThucBangDiem ? "✓ Đã xác thực bảng điểm" : "Chưa xác thực"}
-              </p>
-              {cacMon.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-1">
-                  {cacMon.map(({ mon, tm }) => (
-                    <span key={mon.id} className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-700">
-                      <span className="h-2 w-2 rounded-sm" style={{ background: mauMon(mon.ten) }} />
-                      {mon.ten} · {tm.diem}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <Link to={`/tutor/${tutor.id}${kenh?.monId && cacMon.some((x) => x.mon.id === kenh.monId) ? `?mon=${kenh.monId}` : ""}`} className="mt-4 block rounded-xl bg-blue-700 py-2 text-center text-sm font-semibold text-white hover:bg-blue-800">
-                Xem hồ sơ tutor
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+function nhanNgay(iso: string) {
+  const d = new Date(iso);
+  const homNay = new Date();
+  if (cungNgay(d, homNay)) return "Hôm nay";
+  if (cungNgay(d, congNgay(homNay, -1))) return "Hôm qua";
+  return d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
 export default function Forum() {
@@ -144,78 +82,7 @@ export default function Forum() {
     return Object.entries(goc).filter(([, n]) => n > 0);
   };
 
-  // ---------- Cột thành viên ----------
-  const { tutorMon, tutorKhac } = tutorTrongKenh(kenh);
-  const hocVienTrongKenh = [...new Map(tinKenh.filter((t) => t.tacGia.loai === "hoc-vien").map((t) => [khoaTacGia(t.tacGia), t.tacGia])).values()];
-  const nhomThanhVien: { vt: VaiTro; ten: string; ds: TacGia[] }[] = [
-    { vt: "tutor-mon", ten: "Tutor môn này", ds: tutorMon.map((t) => ({ loai: "tutor", tutorId: t.id })) },
-    { vt: "tutor", ten: "Tutor", ds: tutorKhac.map((t) => ({ loai: "tutor", tutorId: t.id })) },
-    { vt: "quan-tri", ten: "Quản trị", ds: [{ loai: "quan-tri" }] },
-  ];
-
-  // ---------- Cột kênh ----------
-  const dsKenh = cacKenh(truongXem);
-  const nhomKenh = [...new Set(dsKenh.map((k) => k.nhom))];
-  const truong = layTruong(truongXem)!;
-
-  const cotKenh = (
-    <div className="flex h-full min-h-0">
-      {/* Thanh server: các trường */}
-      <div className="flex w-16 shrink-0 flex-col items-center gap-2 bg-slate-100 py-3">
-        {truongs.map((t) => {
-          const dangChon = t.id === truongXem;
-          return (
-            <button
-              key={t.id}
-              type="button"
-              onClick={() => setTruongXem(t.id)}
-              title={t.ten}
-              className={`relative grid h-11 w-11 place-items-center text-xs font-bold transition-all ${
-                dangChon ? "rounded-2xl bg-blue-700 text-white" : "rounded-full bg-white text-slate-600 hover:rounded-2xl hover:bg-blue-50"
-              }`}
-            >
-              {dangChon && <span className="absolute -left-2.5 h-8 w-1 rounded-r bg-slate-900" />}
-              {t.tenVietTat}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Danh sách kênh */}
-      <nav className="flex w-60 min-w-0 flex-col border-r border-slate-200 bg-white" aria-label="Danh sách kênh">
-        <div className="flex h-12 shrink-0 items-center border-b border-slate-200 px-4">
-          <p className="truncate font-bold text-slate-900">{truong.ten}</p>
-        </div>
-        <div className="flex-1 overflow-y-auto px-2 py-2">
-          {nhomKenh.map((nhom) => (
-            <div key={nhom} className="mb-3">
-              <p className="mb-1 truncate px-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">{nhom}</p>
-              {dsKenh
-                .filter((k) => k.nhom === nhom)
-                .map((k) => {
-                  const dangMo = k.id === kenh.id;
-                  const so = demTin(k.id);
-                  return (
-                    <button
-                      key={k.id}
-                      type="button"
-                      onClick={() => chonKenh(k.id)}
-                      className={`flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-sm transition ${
-                        dangMo ? "bg-slate-100 font-semibold text-slate-900" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                      }`}
-                    >
-                      <DauKenh k={k} />
-                      <span className="min-w-0 flex-1 truncate">{k.ten}</span>
-                      {so > 0 && !dangMo && <span className="text-[11px] text-slate-400">{so}</span>}
-                    </button>
-                  );
-                })}
-            </div>
-          ))}
-        </div>
-      </nav>
-    </div>
-  );
+  const cotKenh = <ChannelList truongXem={truongXem} onChonTruong={setTruongXem} kenhDangMo={kenh.id} onChonKenh={chonKenh} demTin={demTin} />;
 
   // ---------- Khung chat ----------
   let truocDo: TinNhan | undefined;
@@ -293,7 +160,7 @@ export default function Forum() {
                     <span className="w-10 shrink-0 pt-0.5 text-right text-[10px] text-slate-400 opacity-0 group-hover:opacity-100">{gio(t.thoiGian)}</span>
                   ) : (
                     <button type="button" onClick={() => setTheMo(t.tacGia)} className="self-start">
-                      <Avatar tg={t.tacGia} vt={vt} />
+                      <AvatarVaiTro tg={t.tacGia} vt={vt} />
                     </button>
                   )}
                   <div className="min-w-0 flex-1">
@@ -367,45 +234,7 @@ export default function Forum() {
         </div>
       </section>
 
-      {/* Cột thành viên */}
-      <aside className="hidden w-56 shrink-0 overflow-y-auto border-l border-slate-200 bg-slate-50 px-2 py-3 xl:block" aria-label="Thành viên">
-        {nhomThanhVien
-          .filter((n) => n.ds.length > 0)
-          .map((n) => (
-            <div key={n.vt} className="mb-4">
-              <p className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-                {n.ten} — {n.ds.length}
-              </p>
-              {n.ds.map((tg) => {
-                const k = khoaTacGia(tg);
-                return (
-                  <button key={k} type="button" onClick={() => setTheMo(tg)} className="flex w-full items-center gap-2 rounded-lg px-2 py-1 text-left hover:bg-white">
-                    <span className="relative">
-                      <Avatar tg={tg} vt={n.vt} nho />
-                      <span className={`absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full ring-2 ring-slate-50 ${dangOnline(k) ? "bg-emerald-500" : "bg-slate-300"}`} />
-                    </span>
-                    <span className={`truncate text-sm font-medium ${VAI_TRO[n.vt].mauChu}`}>{tenTacGia(tg).ten}</span>
-                  </button>
-                );
-              })}
-            </div>
-          ))}
-        <p className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-          Thành viên — {(SO_THANH_VIEN[kenh.truongId] ?? 0).toLocaleString("vi-VN")}
-        </p>
-        {hocVienTrongKenh.map((tg) => {
-          const k = khoaTacGia(tg);
-          return (
-            <button key={k} type="button" onClick={() => setTheMo(tg)} className="flex w-full items-center gap-2 rounded-lg px-2 py-1 text-left hover:bg-white">
-              <span className="relative">
-                <Avatar tg={tg} vt="thanh-vien" nho />
-                <span className={`absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full ring-2 ring-slate-50 ${dangOnline(k) ? "bg-emerald-500" : "bg-slate-300"}`} />
-              </span>
-              <span className="truncate text-sm text-slate-700">{tenTacGia(tg).ten}</span>
-            </button>
-          );
-        })}
-      </aside>
+      <MemberList kenh={kenh} tinKenh={tinKenh} onChon={setTheMo} />
 
       {theMo && <TheNguoiDung tg={theMo} vt={vaiTro(theMo, kenh)} kenh={kenh} onDong={() => setTheMo(null)} />}
     </div>

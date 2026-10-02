@@ -46,7 +46,7 @@ Kịch bản gốc trong spec (NEU → Khoa Toán kinh tế → Kinh tế lượ
 - **Lớp học** (mặc định): lưới video + lịch ôn thi như trước.
 - **Diễn đàn** (kiểu Discord, link `#/?tab=dien-dan`): thanh trái là các trường (UEB, NEU); mỗi trường có kênh **Chung**, **Tìm nhóm học** (có biểu tượng) và **mỗi môn một kênh** (ô vuông màu theo môn), gom theo khoa. Có ghim tin, thả cảm xúc, bấm tên để xem thẻ hồ sơ, danh sách thành viên theo vai trò, ô nhắn tin (Enter để gửi).
 - **Màu tên theo vai trò, tính riêng cho từng kênh** (đi qua `duDieuKienDay`): vàng + "✓ Tutor A+" = tutor đạt GPA ≥ 3.6 và A/A+ đúng môn của kênh; tím = tutor đã xác thực nhưng dạy môn khác (vd Trịnh Quốc Việt ở kênh Quản trị vận hành 2 vì điểm B+); đỏ = quản trị; thường = thành viên.
-- Người học chat với tên "Bạn"; ở chế độ "Tôi là tutor" chat bằng tên tutor đang đóng vai. Tin nhắn mẫu: `tinNhanMacDinh` trong `mockData.ts`; màu từng môn: `MAU_MON` trong `src/lib/forum.ts`.
+- Người học chat với tên "Bạn"; ở chế độ "Tôi là tutor" chat bằng tên tutor đang đóng vai. Tin nhắn mẫu: `tinNhanMacDinh` trong `mockData.ts`; màu từng môn (dùng chung cho ảnh bìa video và kênh diễn đàn): `MAU_MON` trong `src/lib/mauMon.ts`.
 
 ### Ví của tôi
 

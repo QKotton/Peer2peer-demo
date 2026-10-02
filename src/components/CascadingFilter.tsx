@@ -1,18 +1,10 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { khoas, monHocs, truongs } from "../data/mockData";
+import { boDau } from "../lib/dinhDang";
 import { truongCuaMon } from "../lib/rules";
 
 type Props = { truongBanDau?: string; khoaBanDau?: string; monBanDau?: string; onTim?: () => void };
-
-// Bỏ dấu tiếng Việt để tìm "kinh te luong" vẫn ra "Kinh tế lượng"
-const boDau = (s: string) =>
-  s
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/đ/g, "d")
-    .replace(/Đ/g, "D")
-    .toLowerCase();
 
 const inputCls =
   "w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400";
