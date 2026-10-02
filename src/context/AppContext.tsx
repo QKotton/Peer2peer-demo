@@ -49,6 +49,8 @@ type AppState = {
   dongBoLoc: () => void;
   sidebarMo: boolean; // drawer sidebar trên mobile
   setSidebarMo: (mo: boolean) => void;
+  sidebarThuGon: boolean; // desktop: thu cột trái thành dải biểu tượng (kiểu YouTube)
+  doiThuGon: () => void;
   // --- Chế độ tutor: sửa hồ sơ, đăng ký môn, nộp minh chứng ---
   capNhatTutor: (id: string, patch: Partial<Tutor>) => void;
   luuTutorMon: (tm: TutorMon) => void;
@@ -93,6 +95,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [toastMsg, setToastMsg] = useState<string | null>(null);
   const [boLoc, setBoLoc] = useState<BoLoc | null>(null);
   const [sidebarMo, setSidebarMo] = useState(false);
+  // Ghi nhớ lựa chọn thu gọn cho lần sau (chỉ là tiện ích, lỗi storage thì bỏ qua)
+  const [sidebarThuGon, setSidebarThuGon] = useState(() => {
+    try {
+      return localStorage.getItem("p2p.sidebarThuGon") === "1";
+    } catch {
+      return false;
+    }
+  });
+  const doiThuGon = () =>
+    setSidebarThuGon((v) => {
+      try {
+        localStorage.setItem("p2p.sidebarThuGon", v ? "0" : "1");
+      } catch {
+        /* bỏ qua */
+      }
+      return !v;
+    });
   const [minhChung, setMinhChung] = useState<Record<string, MinhChung>>({});
   const [buoiDaDangKy, setBuoiDaDangKy] = useState<string[]>(buoiDaDangKyMacDinh);
   const [suKien, setSuKien] = useState<SuKienCaNhan[]>(suKienCaNhanMacDinh);
@@ -278,6 +297,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         dongBoLoc,
         sidebarMo,
         setSidebarMo,
+        sidebarThuGon,
+        doiThuGon,
         capNhatTutor,
         luuTutorMon,
         xoaTutorMon,

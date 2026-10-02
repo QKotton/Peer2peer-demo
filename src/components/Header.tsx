@@ -3,7 +3,9 @@ import { useApp } from "../context/AppContext";
 import { Icon } from "./icons";
 
 export default function Header() {
-  const { cheDo, setCheDo, moBoLoc, setSidebarMo } = useApp();
+  const { cheDo, setCheDo, moBoLoc, setSidebarMo, sidebarThuGon, doiThuGon } = useApp();
+  // Máy tính: ☰ thu gọn / mở rộng cột trái. Điện thoại: ☰ mở menu trượt.
+  const bamMenu = () => (window.matchMedia("(min-width: 1024px)").matches ? doiThuGon() : setSidebarMo(true));
   const navigate = useNavigate();
 
   const chon = (c: "hoc" | "tutor") => {
@@ -28,7 +30,13 @@ export default function Header() {
     <header className="sticky top-0 z-30 h-16 border-b border-slate-200 bg-white">
       <div className="flex h-full items-center justify-between gap-3 px-3 sm:px-4">
         <div className="flex items-center gap-1 sm:gap-2">
-          <button type="button" onClick={() => setSidebarMo(true)} className="rounded-full p-2 text-slate-700 hover:bg-slate-100 lg:hidden" aria-label="Mở menu">
+          <button
+            type="button"
+            onClick={bamMenu}
+            className="rounded-full p-2 text-slate-700 hover:bg-slate-100"
+            aria-label={sidebarThuGon ? "Mở rộng thanh bên" : "Thu gọn thanh bên"}
+            title={sidebarThuGon ? "Mở rộng thanh bên" : "Thu gọn thanh bên"}
+          >
             <Icon ten="menu" />
           </button>
           <Link to="/" className="flex items-center gap-2.5">
